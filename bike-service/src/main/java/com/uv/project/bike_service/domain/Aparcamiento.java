@@ -24,6 +24,9 @@ public class Aparcamiento {
     @Column(name = "capacidad")
     private int capacidad;
 
+    @Column(name = "num_bicis")
+    private int numBicis;
+
     @Column(name = "latitud")
     private float latitud;
 
