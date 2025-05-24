@@ -2,13 +2,21 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SharedApplication",
+            "request": "launch",
+            "mainClass": "com.uv.project.shared.SharedApplication",
+            "projectName": "shared"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-BikeServiceApplication<bike-service>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.uv.project.bike_service.BikeServiceApplication",
             "projectName": "bike-service",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=59102 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bike-service"
         },
         {
             "type": "java",
@@ -18,7 +26,8 @@
             "mainClass": "com.uv.project.config_server.ConfigServerApplication",
             "projectName": "config-server",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=59046 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=config-server"
         }
     ]
 }
