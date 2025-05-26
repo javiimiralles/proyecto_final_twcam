@@ -1,8 +1,10 @@
 package com.uv.project.bike_service.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uv.project.bike_service.domain.Aparcamiento;
+import com.uv.project.bike_service.objects.AparcamientoStatus;
 import com.uv.project.bike_service.services.AparcamientoService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,14 +51,20 @@ public class AparcamientoController {
 
     @GetMapping("/aparcamiento/{id}/status")
     public ResponseEntity<?> getStatus(@PathVariable int id, 
-                                                        @RequestParam(required = false) String from, 
-                                                        @RequestParam(required = false) String to) {
+                                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from, 
+                                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         if (from != null && to != null) {
-            // ToDo - Lógica para obtener estado en rango
-            return ResponseEntity.ok().build();
+            List<AparcamientoStatus> statusList = aparcamientoService.getStatus(id, from, to);
+            if (statusList == null || statusList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No se encontraron estados para el aparcamiento con ID: " + id + " en el rango de fechas especificado.");
+            }
+            return ResponseEntity.ok(statusList);
         } else {
-            // ToDo - Lógica para estado actual
-            return ResponseEntity.ok().build();
+            AparcamientoStatus status = aparcamientoService.getStatus(id);
+            if (status == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aparcamiento con ID: " + id + " no encontrado.");
+            }
+            return ResponseEntity.ok(status);
         }
     }
     
