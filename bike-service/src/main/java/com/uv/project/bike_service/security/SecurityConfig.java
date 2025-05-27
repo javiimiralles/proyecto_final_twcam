@@ -26,7 +26,13 @@ public class SecurityConfig {
                 .requestMatchers(
                     AntPathRequestMatcher.antMatcher("/api/v1/aparcamientos"),
                     AntPathRequestMatcher.antMatcher("/api/v1/aparcamientos/ranking"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**/status")
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**/status"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-spec"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html/**"),
+                    AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui.html")
                 ).permitAll()
                 .requestMatchers(
                     AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento"),

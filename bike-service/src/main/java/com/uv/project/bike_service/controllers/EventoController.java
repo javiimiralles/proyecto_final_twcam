@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uv.project.bike_service.domain.Evento;
 import com.uv.project.bike_service.services.EventoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/api/v1/evento")
 public class EventoController {
@@ -21,6 +24,11 @@ public class EventoController {
     
     @PreAuthorize("hasRole('aparcamiento')")
     @PostMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(
+        summary = "Notificar un evento",
+        description = "Permite a un aparcamiento notificar un evento relacionado con el estado de las bicis."
+    )
     public ResponseEntity<Evento> notificarEvento(@PathVariable int id, @RequestBody Evento evento) {
         Evento eventoCreado = eventoService.saveEvento(id, evento);
         if (eventoCreado == null) {
