@@ -9,6 +9,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.uv.project.shared.domain.JwtConverter;
 
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -22,14 +24,20 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/api/v1/aparcamientos",
-                    "/api/v1/aparcamientos/ranking",
-                    "/api/v1/aparcamiento/*/status"
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamientos"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamientos/ranking"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**/status"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-spec"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html/**"),
+                    AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui.html")
                 ).permitAll()
-
-                .requestMatchers("/api/v1/aparcamiento").hasRole("admin")
-                .requestMatchers("/api/v1/aparcamiento/*").hasRole("admin")
-
+                .requestMatchers(
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**")
+                ).hasRole("admin")
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2

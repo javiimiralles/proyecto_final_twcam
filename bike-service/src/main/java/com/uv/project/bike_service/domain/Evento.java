@@ -27,4 +27,13 @@ public class Evento {
 
     private LocalDateTime fecha;
 
+    public Evento(String id, int idAparcamiento, OperacionEnum operacion, int huecosDisponibles, int bicisDisponibles, LocalDateTime fecha) {
+        this.id = id;
+        this.idAparcamiento = idAparcamiento;
+        this.operacion = operacion;
+        this.huecosDisponibles = huecosDisponibles;
+        this.bicisDisponibles = bicisDisponibles;
+        this.fecha = fecha;
+    }
+
 }
