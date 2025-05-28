@@ -1,4 +1,4 @@
-package com.uv.project.bike_service.security;
+package com.uv.project.city_service.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,34 +17,24 @@ public class SecurityConfig {
 
     @Autowired
     private JwtConverter jwtConverter;
-    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamientos"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamientos/ranking"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**/status"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/api-spec"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html/**"),
-                    AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui/**"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui.html")
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamientoCercano"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/aggregatedData")
                 ).permitAll()
-                .requestMatchers(
-                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**")
-                ).hasRole("admin")
-                .requestMatchers("/api/v1/evento/**").hasRole("aparcamiento")
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/aggregateData")).hasRole("servicio")
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter.jwtAuthenticationConverter()))
             );
-
+        
         return http.build();
     }
+    
 }
