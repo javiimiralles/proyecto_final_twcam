@@ -1,4 +1,4 @@
-package com.uv.project.bike_service.domain;
+package com.uv.project.shared.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

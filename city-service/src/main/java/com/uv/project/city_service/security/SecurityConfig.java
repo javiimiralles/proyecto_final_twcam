@@ -25,8 +25,20 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     AntPathRequestMatcher.antMatcher("/api/v1/aparcamientoCercano"),
-                    AntPathRequestMatcher.antMatcher("/api/v1/aggregatedData")
+                    AntPathRequestMatcher.antMatcher("/api/v1/aggregatedData"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-spec"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html/**"),
+                    AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui.html")
                 ).permitAll()
+                .requestMatchers(
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/estacion"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/estacion/**")
+                ).hasRole("admin")
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/aggregateData")).hasRole("servicio")
                 .anyRequest().authenticated()
             )

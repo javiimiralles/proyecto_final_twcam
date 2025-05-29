@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.uv.project.pollution_service.domain.Estacion;
 import com.uv.project.pollution_service.services.EstacionService;
+import com.uv.project.shared.domain.Estacion;
 
 @RestController
 @RequestMapping
