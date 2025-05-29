@@ -14,6 +14,7 @@ import com.uv.project.pollution_service.domain.Lectura;
 import com.uv.project.pollution_service.services.LecturaService;
 
 @RestController
+@RequestMapping("/api/v1")
 public class LecturaController {
 
     @Autowired
