@@ -1,0 +1,39 @@
+services:
+
+  config-server:
+    build: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8080"
+    networks:
+      - backend
+
+  bike-service:
+    build: ./bike-service
+    container_name: bike-service
+    ports:
+      - "8081:8080"
+    environment:
+      - KEYCLOAK_ADMIN_TOKEN=${KEYCLOAK_ADMIN_TOKEN}
+      - KEYCLOAK_APARCAMIENTO_TOKEN=${KEYCLOAK_APARCAMIENTO_TOKEN}
+    depends_on:
+      - config-server
+    networks:
+      - backend
+
+  # city-service:
+  #   build: ./city-service
+  #   container_name: city-service
+  #   ports:
+  #     - "8082:8080"
+  #   environment:
+  #     - KEYCLOAK_TOKEN=${KEYCLOAK_TOKEN}
+  #     - SPRING_CLOUD_CONFIG_URI=http://localhost:8080
+  #   depends_on:
+  #     - config-server
+  #   networks:
+  #     - backend
+
+networks:
+  backend:
+    driver: bridge

@@ -2,6 +2,7 @@ package com.uv.project.bike_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @SpringBootApplication(scanBasePackages = {"com.uv.project.bike_service", "com.uv.project.shared"})
+@EntityScan(basePackages = {"com.uv.project.shared.domain"})
 @OpenAPIDefinition(
 	info = @Info(
 		title = "Bike Service API",

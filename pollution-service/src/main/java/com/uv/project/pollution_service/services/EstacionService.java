@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uv.project.pollution_service.domain.Estacion;
 import com.uv.project.pollution_service.repository.EstacionRepository;
+import com.uv.project.shared.domain.Estacion;
 @Service
 public class EstacionService {
 
-     @Autowired
+    @Autowired
     private EstacionRepository estacionRepository;
 
     public Estacion crearEstacion(Estacion estacion) {
