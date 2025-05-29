@@ -10,7 +10,7 @@ import com.uv.project.pollution_service.domain.Estacion;
 import com.uv.project.pollution_service.services.EstacionService;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1")
 public class EstacionController {
 
     @Autowired
