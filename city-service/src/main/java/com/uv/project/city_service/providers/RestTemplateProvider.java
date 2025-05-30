@@ -14,6 +14,10 @@ public class RestTemplateProvider  {
         this.restTemplateBuilder = restTemplateBuilder;
     }
 
+    public RestTemplate withoutToken() {
+        return restTemplateBuilder.build();
+    }
+
     public RestTemplate withToken(String token) {
         return restTemplateBuilder
                 .defaultHeader("Authorization", "Bearer " + token)
