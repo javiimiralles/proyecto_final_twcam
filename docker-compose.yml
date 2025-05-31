@@ -16,6 +16,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN_TOKEN=${KEYCLOAK_ADMIN_TOKEN}
       - KEYCLOAK_APARCAMIENTO_TOKEN=${KEYCLOAK_APARCAMIENTO_TOKEN}
+      - KEYCLOAK_ESTACION_TOKEN=${KEYCLOAK_ESTACION_TOKEN}
     depends_on:
       - config-server
     networks:
