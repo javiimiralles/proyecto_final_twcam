@@ -18,12 +18,13 @@ public class Estacion {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "direccion")
-    private String direccion;
+    @Column(name = "direction")
+    private String direction;
 
-    @Column(name = "latitud")
-    private float latitud;
+    @Column(name = "latitude")
+    private float latitude;
 
-    @Column(name = "longitud")
-    private float longitud;
+    @Column(name = "longitude")
+    private float longitude;
+
 }
