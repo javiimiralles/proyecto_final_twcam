@@ -38,6 +38,16 @@
             "projectName": "pollution-service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CityServiceApplication<city-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.uv.project.city_service.CityServiceApplication",
+            "projectName": "city-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
