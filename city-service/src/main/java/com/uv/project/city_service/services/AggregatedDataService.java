@@ -16,9 +16,9 @@ public class AggregatedDataService {
 
     private Logger logger = Logger.getLogger(AggregatedDataService.class.getName());
 
-    public AggregatedData saveAggregatedData(AggregatedData aggregatedData) {
-        logger.info("saveAggregatedData() - Saving aggregated data: " + aggregatedData);
-
+    public AggregatedData aggregateData() {
+        logger.info("Saving aggregated data");
+        AggregatedData aggregatedData = new AggregatedData();
         
         return aggregatedDataRepository.save(aggregatedData);
     }
