@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uv.project.city_service.client.BikeServiceClient;
+import com.uv.project.city_service.utils.TokenUtils;
 import com.uv.project.shared.domain.Aparcamiento;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -25,6 +28,9 @@ public class AparcamientoController {
     
     @Autowired
     private BikeServiceClient bikeServiceClient;
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     @GetMapping("/aparcamientoCercano")
     public ResponseEntity<Aparcamiento> getAparcamientoCercano(@RequestParam double lat, @RequestParam double lon) {
@@ -46,9 +52,10 @@ public class AparcamientoController {
 
     @PreAuthorize("hasRole('admin')")
     @PostMapping("/aparcamiento")
-    public ResponseEntity<Aparcamiento> createAparcamiento(@RequestBody Aparcamiento aparcamiento) {
+    public ResponseEntity<Aparcamiento> createAparcamiento(HttpServletRequest request, @RequestBody Aparcamiento aparcamiento) {
         try {
-            Aparcamiento createdAparcamiento = bikeServiceClient.createAparcamiento(aparcamiento);
+            String token = tokenUtils.extractBearerToken(request);
+            Aparcamiento createdAparcamiento = bikeServiceClient.createAparcamiento(aparcamiento, token);
             return ResponseEntity.ok(createdAparcamiento);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -57,9 +64,10 @@ public class AparcamientoController {
 
     @PreAuthorize("hasRole('admin')")
     @PutMapping("/aparcamiento/{id}")
-    public ResponseEntity<Aparcamiento> updateAparcamiento(@PathVariable int id, @RequestBody Aparcamiento aparcamiento) {
+    public ResponseEntity<Aparcamiento> updateAparcamiento(HttpServletRequest request, @PathVariable int id, @RequestBody Aparcamiento aparcamiento) {
         try {
-            Aparcamiento updatedAparcamiento = bikeServiceClient.updateAparcamiento(id, aparcamiento);
+            String token = tokenUtils.extractBearerToken(request);
+            Aparcamiento updatedAparcamiento = bikeServiceClient.updateAparcamiento(id, aparcamiento, token);
             return ResponseEntity.ok(updatedAparcamiento);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -68,9 +76,10 @@ public class AparcamientoController {
 
     @PreAuthorize("hasRole('admin')")
     @DeleteMapping("/aparcamiento/{id}")
-    public ResponseEntity<Void> deleteAparcamiento(@PathVariable int id) {
+    public ResponseEntity<Void> deleteAparcamiento(HttpServletRequest request, @PathVariable int id) {
         try {
-            bikeServiceClient.deleteAparcamiento(id);
+            String token = tokenUtils.extractBearerToken(request);
+            bikeServiceClient.deleteAparcamiento(id, token);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -87,4 +96,6 @@ public class AparcamientoController {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
+
+
 }

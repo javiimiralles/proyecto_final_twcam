@@ -20,9 +20,6 @@ public class BikeServiceClient {
     @Value("${bike-service.url}")
     private String baseUrl;
 
-    @Value("${keycloak.admin-token}")
-    private String adminToken;
-
     public List<Aparcamiento> findAparcamientos() {
         RestTemplate restTemplate = restTemplateProvider.withoutToken();
         ResponseEntity<Aparcamiento[]> response = restTemplate.getForEntity(
@@ -32,8 +29,8 @@ public class BikeServiceClient {
         return List.of(response.getBody());
     }
 
-    public Aparcamiento createAparcamiento(Aparcamiento aparcamiento) {
-        RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
+    public Aparcamiento createAparcamiento(Aparcamiento aparcamiento, String token) {
+        RestTemplate restTemplate = restTemplateProvider.withToken(token);
         ResponseEntity<Aparcamiento> response = restTemplate.postForEntity(
             baseUrl + "/aparcamiento",
             aparcamiento,
@@ -42,8 +39,8 @@ public class BikeServiceClient {
         return response.getBody();
     }
 
-    public Aparcamiento updateAparcamiento(int id, Aparcamiento aparcamiento) {
-        RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
+    public Aparcamiento updateAparcamiento(int id, Aparcamiento aparcamiento, String token) {
+        RestTemplate restTemplate = restTemplateProvider.withToken(token);
         aparcamiento.setId(id);
         restTemplate.put(
             baseUrl + "/aparcamiento/" + id,
@@ -52,8 +49,8 @@ public class BikeServiceClient {
         return aparcamiento;
     }
 
-    public void deleteAparcamiento(int id) {
-        RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
+    public void deleteAparcamiento(int id, String token) {
+        RestTemplate restTemplate = restTemplateProvider.withToken(token);
         restTemplate.delete(baseUrl + "/aparcamiento/" + id);
     }
 }
