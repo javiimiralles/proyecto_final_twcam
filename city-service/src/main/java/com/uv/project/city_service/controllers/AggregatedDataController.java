@@ -17,6 +17,15 @@ public class AggregatedDataController {
     @Autowired
     private AggregatedDataService aggregatedDataService;
 
+    @GetMapping("/aggregatedData")
+    public ResponseEntity<AggregatedData> getLastAggregatedData() {
+        AggregatedData data = aggregatedDataService.getLastAggregatedData();
+        if (data == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(data);
+    }
+
     @PreAuthorize("hasRole('servicio')")
     @GetMapping("/aggregateData")
     public ResponseEntity<AggregatedData> aggregateData() {

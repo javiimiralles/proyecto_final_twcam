@@ -7,5 +7,7 @@ import com.uv.project.city_service.domain.AggregatedData;
 
 @Repository
 public interface AggregatedDataRepository extends MongoRepository<AggregatedData, String>  {
+
+    AggregatedData findTopByOrderByTimestampDesc();
     
 }

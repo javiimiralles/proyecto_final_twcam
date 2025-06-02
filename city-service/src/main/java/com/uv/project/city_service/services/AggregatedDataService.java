@@ -16,6 +16,11 @@ public class AggregatedDataService {
 
     private Logger logger = Logger.getLogger(AggregatedDataService.class.getName());
 
+    public AggregatedData getLastAggregatedData() {
+        logger.info("Obteniendo los datos agregados más recientes");
+        return aggregatedDataRepository.findTopByOrderByTimestampDesc();
+    }
+
     public AggregatedData aggregateData() {
         logger.info("Saving aggregated data");
         AggregatedData aggregatedData = new AggregatedData();
