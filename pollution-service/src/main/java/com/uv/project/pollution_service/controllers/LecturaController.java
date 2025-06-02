@@ -21,20 +21,20 @@ public class LecturaController {
     @Autowired
     private LecturaService lecturaService;
 
-    @Operation(summary = "Enviar una nueva lectura desde una estación (requiere rol ADMIN)")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Enviar una nueva lectura desde una estación (requiere rol ESTACION)")
+    @PreAuthorize("hasRole('estacion')")
     @PostMapping("/estacion/{id}")
     public ResponseEntity<Lectura> enviarLectura(@PathVariable String id, @RequestBody Lectura lectura) {
         lectura.setEstacionId(id);
         return ResponseEntity.status(201).body(lecturaService.guardarLectura(lectura));
     }
 
-    @Operation(summary = "Obtener la última lectura enviada por una estación (público)")
-    @GetMapping("/estacion/{id}/status")
-    public ResponseEntity<Lectura> ultimaLectura(@PathVariable String id) {
-        List<Lectura> lecturas = lecturaService.getLecturasByEstacion(id);
-        return lecturas.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(lecturas.get(0));
-    }
+    // @Operation(summary = "Obtener la última lectura enviada por una estación (público)")
+    // @GetMapping("/estacion/{id}/status")
+    // public ResponseEntity<Lectura> ultimaLectura(@PathVariable String id) {
+    //     List<Lectura> lecturas = lecturaService.getLecturasByEstacion(id);
+    //     return lecturas.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(lecturas.get(0));
+    // }
 
     @Operation(summary = "Consultar la última lectura o las lecturas por intervalo (público)")
     @GetMapping("/estacion/{id}/status")
