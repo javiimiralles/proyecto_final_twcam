@@ -12,6 +12,8 @@ import com.uv.project.pollution_service.domain.Lectura;
 import com.uv.project.pollution_service.services.LecturaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
@@ -23,6 +25,7 @@ public class LecturaController {
 
     @Operation(summary = "Enviar una nueva lectura desde una estación (requiere rol ESTACION)")
     @PreAuthorize("hasRole('estacion')")
+    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/estacion/{id}")
     public ResponseEntity<Lectura> enviarLectura(@PathVariable String id, @RequestBody Lectura lectura) {
         lectura.setEstacionId(id);

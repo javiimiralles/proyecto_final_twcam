@@ -11,6 +11,7 @@ import com.uv.project.pollution_service.services.EstacionService;
 import com.uv.project.shared.domain.Estacion;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -21,6 +22,7 @@ public class EstacionController {
 
     @Operation(summary = "Crear una nueva estación de medición (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
+    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/estacion")
     public ResponseEntity<Estacion> crearEstacion(@RequestBody Estacion estacion) {
         return ResponseEntity.status(201).body(estacionService.crearEstacion(estacion));
@@ -35,6 +37,7 @@ public class EstacionController {
 
     @Operation(summary = "Eliminar una estación por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
+    @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/estacion/{id}")
     public ResponseEntity<Void> eliminarEstacion(@PathVariable int id) {
         if (estacionService.getEstacionById(id).isPresent()) {

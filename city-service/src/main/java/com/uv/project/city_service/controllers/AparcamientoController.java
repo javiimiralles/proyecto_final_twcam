@@ -20,6 +20,7 @@ import com.uv.project.city_service.client.BikeServiceClient;
 import com.uv.project.city_service.utils.TokenUtils;
 import com.uv.project.shared.domain.Aparcamiento;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -51,6 +52,7 @@ public class AparcamientoController {
     }
 
     @PreAuthorize("hasRole('admin')")
+    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/aparcamiento")
     public ResponseEntity<Aparcamiento> createAparcamiento(HttpServletRequest request, @RequestBody Aparcamiento aparcamiento) {
         try {
@@ -63,6 +65,7 @@ public class AparcamientoController {
     }
 
     @PreAuthorize("hasRole('admin')")
+    @SecurityRequirement(name = "Bearer Auth")
     @PutMapping("/aparcamiento/{id}")
     public ResponseEntity<Aparcamiento> updateAparcamiento(HttpServletRequest request, @PathVariable int id, @RequestBody Aparcamiento aparcamiento) {
         try {
@@ -75,6 +78,7 @@ public class AparcamientoController {
     }
 
     @PreAuthorize("hasRole('admin')")
+    @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/aparcamiento/{id}")
     public ResponseEntity<Void> deleteAparcamiento(HttpServletRequest request, @PathVariable int id) {
         try {

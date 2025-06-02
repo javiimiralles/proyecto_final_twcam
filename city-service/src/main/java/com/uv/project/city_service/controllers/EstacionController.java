@@ -7,6 +7,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.uv.project.shared.domain.Estacion;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import com.uv.project.city_service.services.EstacionService;
 
 @RestController
@@ -17,6 +20,7 @@ public class EstacionController {
     private EstacionService estacionService;
 
     @PreAuthorize("hasRole('admin')")
+    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/estacion")
     public ResponseEntity<Estacion> createEstacion(@RequestBody Estacion estacion) {
         try {
@@ -28,6 +32,7 @@ public class EstacionController {
     }
 
     @PreAuthorize("hasRole('admin')")
+    @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/estacion/{id}")
     public ResponseEntity<Void> deleteEstacion(@PathVariable Integer id) {
         try {
