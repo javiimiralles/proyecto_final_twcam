@@ -1,18 +1,15 @@
-package com.uv.project.city_service.schedulers;
+package com.uv.project.schedulers.invokers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.uv.project.city_service.domain.AggregatedData;
-import com.uv.project.city_service.providers.RestTemplateProvider;
+import com.uv.project.schedulers.providers.RestTemplateProvider;
+import com.uv.project.shared.domain.AggregatedData;
 
-@Component
 public class AutoInvoker {
-
     @Autowired
     private RestTemplateProvider restTemplateProvider;
     
@@ -22,7 +19,7 @@ public class AutoInvoker {
     @Value("${city-service.url}")
     private String baseUrl;
 
-    @Scheduled(fixedRate = 60000) // 60 seconds
+    @Scheduled(fixedRate = 60000) // 60 segundos
     public void invokeAggregateData() {
         try {
             RestTemplate restTemplate = restTemplateProvider.withToken(servicioToken);

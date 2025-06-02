@@ -1,4 +1,4 @@
-package com.uv.project.city_service.domain;
+package com.uv.project.shared.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

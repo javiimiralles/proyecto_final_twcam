@@ -1,4 +1,4 @@
-package com.uv.project.city_service;
+package com.uv.project.schedulers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,14 +8,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(
 	exclude = {DataSourceAutoConfiguration.class},
-	scanBasePackages = {"com.uv.project.city_service", "com.uv.project.shared"}
+	scanBasePackages = {"com.uv.project.schedulers", "com.uv.project.shared"}
 )
 @EntityScan(basePackages = {"com.uv.project.shared.domain"})
 @EnableScheduling
-public class CityServiceApplication {
+public class SchedulersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CityServiceApplication.class, args);
+		SpringApplication.run(SchedulersApplication.class, args);
 	}
 
 }

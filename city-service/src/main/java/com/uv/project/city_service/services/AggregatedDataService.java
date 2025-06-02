@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uv.project.city_service.domain.AggregatedData;
 import com.uv.project.city_service.repository.AggregatedDataRepository;
+import com.uv.project.shared.domain.AggregatedData;
 
 @Service
 public class AggregatedDataService {

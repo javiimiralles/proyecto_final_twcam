@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uv.project.city_service.domain.AggregatedData;
 import com.uv.project.city_service.services.AggregatedDataService;
+import com.uv.project.shared.domain.AggregatedData;
 
 @RestController
 @RequestMapping("/api/v1")
