@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uv.project.pollution_service.domain.Lectura;
 import com.uv.project.pollution_service.repository.LecturaRepository;
+import com.uv.project.shared.domain.Lectura;
 
 @Service
 public class LecturaService {

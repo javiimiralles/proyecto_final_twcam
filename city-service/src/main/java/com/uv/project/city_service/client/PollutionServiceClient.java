@@ -2,6 +2,9 @@ package com.uv.project.city_service.client;
 
 import com.uv.project.city_service.providers.RestTemplateProvider;
 import com.uv.project.shared.domain.Estacion;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,15 @@ public class PollutionServiceClient {
 
     @Value("${keycloak.admin-token}")
     private String adminToken;
+    
+    public List<Estacion> findEstaciones() {
+        RestTemplate restTemplate = restTemplateProvider.withoutToken();
+        ResponseEntity<Estacion[]> response = restTemplate.getForEntity(
+            baseUrl + "/api/v1/estacion",
+            Estacion[].class
+        );
+        return List.of(response.getBody());
+    }
 
     public Estacion createEstacion(Estacion estacion) {
         RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);

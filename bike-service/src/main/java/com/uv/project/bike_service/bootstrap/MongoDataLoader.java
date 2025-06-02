@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.uv.project.bike_service.domain.Evento;
-import com.uv.project.bike_service.enums.OperacionEnum;
 import com.uv.project.bike_service.repository.EventoRepository;
+import com.uv.project.shared.domain.Evento;
+import com.uv.project.shared.domain.OperacionEnum;
 
 @Component
 public class MongoDataLoader implements CommandLineRunner {

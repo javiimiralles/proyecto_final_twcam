@@ -1,8 +1,6 @@
-package com.uv.project.bike_service.domain;
+package com.uv.project.shared.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.uv.project.bike_service.enums.OperacionEnum;
 
 import java.time.LocalDateTime;
 

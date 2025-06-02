@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uv.project.city_service.client.BikeServiceClient;
+import com.uv.project.city_service.utils.DistanceUtils;
 import com.uv.project.city_service.utils.TokenUtils;
 import com.uv.project.shared.domain.Aparcamiento;
 
@@ -32,6 +33,9 @@ public class AparcamientoController {
     @Autowired
     private TokenUtils tokenUtils;
 
+    @Autowired
+    private DistanceUtils distanceUtils;
+
     @GetMapping("/aparcamientoCercano")
     public ResponseEntity<Aparcamiento> getAparcamientoCercano(@RequestParam double lat, @RequestParam double lon) {
         List<Aparcamiento> aparcamientos = bikeServiceClient.findAparcamientos();
@@ -39,9 +43,9 @@ public class AparcamientoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         Aparcamiento masCercano = aparcamientos.get(0);
-        double minDist = distancia(lat, lon, masCercano.getLatitud(), masCercano.getLongitud());
+        double minDist = distanceUtils.calcularDistancia(lat, lon, masCercano.getLatitud(), masCercano.getLongitud());
         for (Aparcamiento a : aparcamientos) {
-            double dist = distancia(lat, lon, a.getLatitud(), a.getLongitud());
+            double dist = distanceUtils.calcularDistancia(lat, lon, a.getLatitud(), a.getLongitud());
             if (dist < minDist) {
                 minDist = dist;
                 masCercano = a;
@@ -85,17 +89,5 @@ public class AparcamientoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    private double distancia(double lat1, double lon1, double lat2, double lon2) {
-        final int R = 6371; // Radio de la Tierra en km
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    }
-
 
 }

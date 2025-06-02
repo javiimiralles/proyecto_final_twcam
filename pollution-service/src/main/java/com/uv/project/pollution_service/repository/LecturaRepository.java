@@ -5,7 +5,8 @@ package com.uv.project.pollution_service.repository;
 import java.time.Instant;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import com.uv.project.pollution_service.domain.Lectura;
+
+import com.uv.project.shared.domain.Lectura;
 
 public interface LecturaRepository extends MongoRepository<Lectura, String> {
     List<Lectura> findByEstacionIdOrderByTimeStampDesc(String estacionId);

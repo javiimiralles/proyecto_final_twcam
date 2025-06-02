@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.uv.project.pollution_service.domain.Lectura;
 import com.uv.project.pollution_service.repository.LecturaRepository;
+import com.uv.project.shared.domain.Lectura;
 
 @Component
 public class MongoDataLoaderLectura implements CommandLineRunner {

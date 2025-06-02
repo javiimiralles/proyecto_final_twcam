@@ -8,11 +8,11 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uv.project.bike_service.domain.Evento;
 import com.uv.project.bike_service.objects.AparcamientoStatus;
 import com.uv.project.bike_service.repository.AparcamientoRepository;
 import com.uv.project.bike_service.repository.EventoRepository;
 import com.uv.project.shared.domain.Aparcamiento;
+import com.uv.project.shared.domain.Evento;
 
 @Service
 public class AparcamientoService {

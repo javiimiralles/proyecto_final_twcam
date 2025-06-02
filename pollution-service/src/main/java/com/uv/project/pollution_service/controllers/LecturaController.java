@@ -8,8 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.uv.project.pollution_service.domain.Lectura;
 import com.uv.project.pollution_service.services.LecturaService;
+import com.uv.project.shared.domain.Lectura;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.access.prepost.PreAuthorize;

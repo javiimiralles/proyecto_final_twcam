@@ -1,4 +1,4 @@
-package com.uv.project.bike_service.enums;
+package com.uv.project.shared.domain;
 
 public enum OperacionEnum {
     aparcamiento,

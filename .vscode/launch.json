@@ -37,7 +37,8 @@
             "mainClass": "com.uv.project.pollution_service.PollutionServiceApplication",
             "projectName": "pollution-service",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=55104 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=pollution-service"
         },
         {
             "type": "java",
@@ -46,6 +47,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.uv.project.city_service.CityServiceApplication",
             "projectName": "city-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=55728 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=city-service"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SchedulersApplication<schedulers>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.uv.project.schedulers.SchedulersApplication",
+            "projectName": "schedulers",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
