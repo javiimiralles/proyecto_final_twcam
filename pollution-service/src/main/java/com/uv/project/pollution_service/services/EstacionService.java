@@ -14,9 +14,6 @@ public class EstacionService {
     @Autowired
     private EstacionRepository estacionRepository;
 
-    @Autowired
-    private LecturaService lecturaService;
-
     public Estacion crearEstacion(Estacion estacion) {
         return estacionRepository.save(estacion);
     }

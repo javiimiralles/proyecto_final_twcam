@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedulers
+  labels:
+    app: schedulers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: schedulers
+  template:
+    metadata:
+      labels:
+        app: schedulers
+    spec:
+      containers:
+        - name: schedulers
+          image: javiimiralles/schedulers:v1.0
+          ports:
+            - containerPort: 8083
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: KEYCLOAK_SERVICIO_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: schedulers-secret
+                  key: keycloak-servicio-token
