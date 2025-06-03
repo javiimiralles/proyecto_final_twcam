@@ -19,11 +19,11 @@ public class LecturaService {
         return lecturaRepository.save(lectura);
     }
 
-    public List<Lectura> getLecturasByEstacion(String id) {
+    public List<Lectura> getLecturasByEstacion(int id) {
         return lecturaRepository.findByEstacionIdOrderByTimeStampDesc(id);
     }
 
-    public List<Lectura> getLecturasByEstacionAndRango(String id, Instant from, Instant to) {
+    public List<Lectura> getLecturasByEstacionAndRango(int id, Instant from, Instant to) {
         return lecturaRepository.findByEstacionIdAndTimeStampBetweenOrderByTimeStampAsc(id, from, to);
     }
 }

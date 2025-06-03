@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.uv.project.shared.domain.Lectura;
 
 public interface LecturaRepository extends MongoRepository<Lectura, String> {
-    List<Lectura> findByEstacionIdOrderByTimeStampDesc(String estacionId);
+    List<Lectura> findByEstacionIdOrderByTimeStampDesc(int estacionId);
 
     List<Lectura> findByEstacionIdAndTimeStampBetweenOrderByTimeStampAsc(
-        String estacionId, Instant from, Instant to);
+        int estacionId, Instant from, Instant to);
 }

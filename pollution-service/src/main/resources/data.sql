@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS estaciones (
 -- Elimina datos antiguos
 DELETE FROM estaciones;
 
+-- Reinicia el contador de ID
+ALTER TABLE estaciones AUTO_INCREMENT = 1;
+
 -- Inserta sin ID
 INSERT INTO estaciones (direction, latitude, longitude) VALUES
 ('Av. Universidad 10', 39.4699, -0.3763),

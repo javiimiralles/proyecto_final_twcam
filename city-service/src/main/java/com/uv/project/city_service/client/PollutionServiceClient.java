@@ -26,7 +26,7 @@ public class PollutionServiceClient {
     public List<Estacion> findEstaciones() {
         RestTemplate restTemplate = restTemplateProvider.withoutToken();
         ResponseEntity<Estacion[]> response = restTemplate.getForEntity(
-            baseUrl + "/api/v1/estacion",
+            baseUrl + "/estaciones",
             Estacion[].class
         );
         return List.of(response.getBody());
@@ -35,7 +35,7 @@ public class PollutionServiceClient {
     public Estacion createEstacion(Estacion estacion) {
         RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
         ResponseEntity<Estacion> response = restTemplate.postForEntity(
-            baseUrl + "/api/v1/estacion",
+            baseUrl + "/estacion",
             estacion,
             Estacion.class
         );
@@ -46,7 +46,7 @@ public class PollutionServiceClient {
         RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
         estacion.setId(id); 
         restTemplate.put(
-            baseUrl + "/api/v1/estacion/" + id,
+            baseUrl + "/estacion/" + id,
             estacion
         );
         return estacion;
@@ -54,6 +54,6 @@ public class PollutionServiceClient {
 
     public void deleteEstacion(int id) {
         RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
-        restTemplate.delete(baseUrl + "/api/v1/estacion/" + id);
+        restTemplate.delete(baseUrl + "/estacion/" + id);
     }
 }

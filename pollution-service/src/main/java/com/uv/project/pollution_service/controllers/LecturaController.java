@@ -24,7 +24,7 @@ public class LecturaController {
     @Operation(summary = "Enviar una nueva lectura desde una estación (requiere rol ESTACION)")
     @PreAuthorize("hasRole('estacion')")
     @PostMapping("/estacion/{id}")
-    public ResponseEntity<Lectura> enviarLectura(@PathVariable String id, @RequestBody Lectura lectura) {
+    public ResponseEntity<Lectura> enviarLectura(@PathVariable int id, @RequestBody Lectura lectura) {
         lectura.setEstacionId(id);
         return ResponseEntity.status(201).body(lecturaService.guardarLectura(lectura));
     }
@@ -39,7 +39,7 @@ public class LecturaController {
     @Operation(summary = "Consultar la última lectura o las lecturas por intervalo (público)")
     @GetMapping("/estacion/{id}/status")
     public ResponseEntity<?> obtenerLecturas(
-            @PathVariable String id,
+            @PathVariable int id,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant to) {
 

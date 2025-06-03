@@ -13,7 +13,7 @@ public class Lectura {
     @Id
     private String id;
 
-    private String estacionId;
+    private int estacionId;
 
     private Instant timeStamp;
 

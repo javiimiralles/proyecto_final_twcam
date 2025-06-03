@@ -35,7 +35,7 @@ public class EventoController {
     public ResponseEntity<List<Evento>> findEventosByAparcamiento(@PathVariable int idAparcamiento) {
         List<Evento> eventos = eventoService.findEventosByAparcamiento(idAparcamiento);
         if (eventos == null || eventos.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(eventos);
     }

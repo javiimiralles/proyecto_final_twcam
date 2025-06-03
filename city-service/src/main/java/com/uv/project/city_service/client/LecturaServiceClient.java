@@ -23,7 +23,7 @@ public class LecturaServiceClient {
     public List<Lectura> findLecturasPorEstacion(int estacionId) {
         RestTemplate restTemplate = restTemplateProvider.withoutToken();
         ResponseEntity<Lectura[]> response = restTemplate.getForEntity(
-            baseUrl + "/estacion/" + estacionId + "/status?from=1970-01-01&to=2100-01-01",
+            baseUrl + "/estacion/" + estacionId + "/status?from=1970-01-01T00:00:00Z&to=9999-12-31T23:59:59Z",
             Lectura[].class
         );
         if (response.getBody() == null) {
