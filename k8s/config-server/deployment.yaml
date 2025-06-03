@@ -1,24 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: city-service
-  labels:
-    app: city-service
+  name: config-server
+  namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: city-service
+      app: config-server
   template:
     metadata:
       labels:
-        app: city-service
+        app: config-server
     spec:
       containers:
-        - name: city-service
-          image: javiimiralles/city-service:v1.0
+        - name: config-server
+          image: javiimiralles/config-server:v1.0
           ports:
-            - containerPort: 8082
+            - containerPort: 8888
           resources:
             requests:
               memory: "256Mi"
@@ -30,5 +29,5 @@ spec:
             - name: KEYCLOAK_SERVICIO_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: city-service-secret
-                  key: keycloak-servicio-token
+                  name: keycloak-secrets
+                  key: KEYCLOAK_SERVICIO_TOKEN
