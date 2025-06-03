@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uv.project.city_service.services.AggregatedDataService;
 import com.uv.project.shared.domain.AggregatedData;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/api/v1")
 public class AggregatedDataController {
@@ -27,6 +29,7 @@ public class AggregatedDataController {
     }
 
     @PreAuthorize("hasRole('servicio')")
+    @SecurityRequirement(name = "Bearer Auth")
     @GetMapping("/aggregateData")
     public ResponseEntity<AggregatedData> aggregateData() {
         return ResponseEntity.ok(aggregatedDataService.aggregateData());
