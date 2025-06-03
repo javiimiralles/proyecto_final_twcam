@@ -38,11 +38,11 @@ public class EstacionService {
         return masCercana;
     }
 
-    public Estacion createEstacion(Estacion estacion) {
+    public Estacion createEstacion(Estacion estacion, String token) {
         return pollutionServiceClient.createEstacion(estacion);
     }
 
-    public void deleteEstacion(Integer id) {
+    public void deleteEstacion(Integer id, String token) {
         pollutionServiceClient.deleteEstacion(id);
     }
 }
