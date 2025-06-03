@@ -11,6 +11,7 @@ import com.uv.project.city_service.services.AggregatedDataService;
 import com.uv.project.shared.domain.AggregatedData;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -19,6 +20,7 @@ public class AggregatedDataController {
     @Autowired
     private AggregatedDataService aggregatedDataService;
 
+    @Operation(summary = "Obtener el último dato agregado disponible")
     @GetMapping("/aggregatedData")
     public ResponseEntity<AggregatedData> getLastAggregatedData() {
         AggregatedData data = aggregatedDataService.getLastAggregatedData();
@@ -28,6 +30,7 @@ public class AggregatedDataController {
         return ResponseEntity.ok(data);
     }
 
+    @Operation(summary = "Generar nuevos datos agregados (requiere rol servicio)")
     @PreAuthorize("hasRole('servicio')")
     @SecurityRequirement(name = "Bearer Auth")
     @GetMapping("/aggregateData")

@@ -9,10 +9,10 @@ import com.uv.project.city_service.utils.TokenUtils;
 import com.uv.project.shared.domain.Estacion;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.uv.project.city_service.services.EstacionService;
-
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,6 +24,7 @@ public class EstacionController {
     @Autowired
     private TokenUtils tokenUtils;
 
+    @Operation(summary = "Crear una nueva estación de medición (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
     @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/estacion")
@@ -37,6 +38,7 @@ public class EstacionController {
         }
     }
 
+    @Operation(summary = "Eliminar una estación de medición por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
     @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/estacion/{id}")

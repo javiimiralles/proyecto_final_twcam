@@ -22,6 +22,7 @@ import com.uv.project.city_service.utils.TokenUtils;
 import com.uv.project.shared.domain.Aparcamiento;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -37,6 +38,7 @@ public class AparcamientoController {
     @Autowired
     private DistanceUtils distanceUtils;
 
+    @Operation(summary = "Obtener el aparcamiento más cercano según latitud y longitud")
     @GetMapping("/aparcamientoCercano")
     public ResponseEntity<Aparcamiento> getAparcamientoCercano(@RequestParam double lat, @RequestParam double lon) {
         List<Aparcamiento> aparcamientos = bikeServiceClient.findAparcamientos();
@@ -55,6 +57,7 @@ public class AparcamientoController {
         return ResponseEntity.ok(masCercano);
     }
 
+    @Operation(summary = "Crear un nuevo aparcamiento (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
     @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/aparcamiento")
@@ -68,6 +71,7 @@ public class AparcamientoController {
         }
     }
 
+    @Operation(summary = "Actualizar un aparcamiento existente por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
     @SecurityRequirement(name = "Bearer Auth")
     @PutMapping("/aparcamiento/{id}")
@@ -81,6 +85,7 @@ public class AparcamientoController {
         }
     }
 
+    @Operation(summary = "Eliminar un aparcamiento por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
     @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/aparcamiento/{id}")
