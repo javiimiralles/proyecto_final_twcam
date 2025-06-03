@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb
+  namespace: proyecto-final
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS bicicletas_sql;
+    CREATE DATABASE IF NOT EXISTS polucion_sql;
