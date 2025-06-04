@@ -26,9 +26,12 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .authorizeHttpRequests(auth -> auth
             // Swagger
             .requestMatchers(
+                AntPathRequestMatcher.antMatcher("/api/v1/api-spec"),
+                AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html"),
+                AntPathRequestMatcher.antMatcher("/api/v1/api-gui.html/**"),
                 AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
-                AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
-                AntPathRequestMatcher.antMatcher("/swagger-ui.html")
+                AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui/**"),
+                AntPathRequestMatcher.antMatcher("/api/v1/swagger-ui.html")
             ).permitAll()
 
             // Endpoints públicos

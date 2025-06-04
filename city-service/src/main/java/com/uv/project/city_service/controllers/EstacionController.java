@@ -24,10 +24,10 @@ public class EstacionController {
     @Autowired
     private TokenUtils tokenUtils;
 
-    @Operation(summary = "Crear una nueva estación de medición (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
-    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/estacion")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Crear una nueva estación de medición", description = "Permite a un usuario con rol admin crear una nueva estación de medición. (requiere rol admin)")
     public ResponseEntity<Estacion> createEstacion(HttpServletRequest request,@RequestBody Estacion estacion) {
         try {
             String token = tokenUtils.extractBearerToken(request);
@@ -38,13 +38,13 @@ public class EstacionController {
         }
     }
 
-    @Operation(summary = "Eliminar una estación de medición por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
-    @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/estacion/{id}")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Eliminar una estación de medición por ID", description = "Permite a un usuario con rol admin eliminar una estación de medición por su ID. (requiere rol admin)")
     public ResponseEntity<Void> deleteEstacion(HttpServletRequest request,@PathVariable Integer id) {
         try {
-             String token = tokenUtils.extractBearerToken(request);
+            String token = tokenUtils.extractBearerToken(request);
             estacionService.deleteEstacion(id, token);
             return ResponseEntity.ok().build();
         } catch (Exception e) {

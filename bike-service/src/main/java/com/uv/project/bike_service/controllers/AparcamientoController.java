@@ -35,7 +35,7 @@ public class AparcamientoController {
     private AparcamientoService aparcamientoService;
 
     @GetMapping("/aparcamientos")
-    @Operation(summary = "Obtener todos los aparcamientos", description = "Devuelve una lista de todos los aparcamientos disponibles.")
+    @Operation(summary = "Obtener todos los aparcamientos", description = "Devuelve una lista de todos los aparcamientos disponibles. (público)")
     public ResponseEntity<List<Aparcamiento>> findAparcamientos() {
         List<Aparcamiento> aparcamientos = aparcamientoService.findAparcamientos();
         if (aparcamientos == null || aparcamientos.isEmpty()) {
@@ -45,7 +45,7 @@ public class AparcamientoController {
     }
     
     @GetMapping("/aparcamientos/ranking")
-    @Operation(summary = "Obtener los 10 aparcamientos con mayor número de bicis disponibles", description = "Devuelve una lista de los 10 aparcamientos con mayor número de bicis disponibles en ese momento.")
+    @Operation(summary = "Obtener los 10 aparcamientos con mayor número de bicis disponibles", description = "Devuelve una lista de los 10 aparcamientos con mayor número de bicis disponibles en ese momento. (público)")
     public ResponseEntity<List<Aparcamiento>> findTop10Aparcamientos() {
         List<Aparcamiento> aparcamientos = aparcamientoService.findTop10Aparcamientos();
         if (aparcamientos == null || aparcamientos.isEmpty()) {
@@ -57,7 +57,7 @@ public class AparcamientoController {
     @GetMapping("/aparcamiento/{id}/status")
     @Operation(
         summary = "Obtener el estado de un aparcamiento", 
-        description = "Devuelve el estado actual de un aparcamiento específico. Si se proporcionan fechas, devuelve el estado en ese rango de fechas."
+        description = "Devuelve el estado actual de un aparcamiento específico. Si se proporcionan fechas, devuelve el estado en ese rango de fechas. (público)"
     )
     public ResponseEntity<?> getStatus(@PathVariable int id, 
                                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from, 
@@ -80,7 +80,7 @@ public class AparcamientoController {
     @PreAuthorize("hasRole('admin')")
     @PostMapping("/aparcamiento")
     @SecurityRequirement(name = "Bearer Auth")
-    @Operation(summary = "Crear un nuevo aparcamiento", description = "Crea un nuevo aparcamiento con los detalles proporcionados.")
+    @Operation(summary = "Crear un nuevo aparcamiento", description = "Crea un nuevo aparcamiento con los detalles proporcionados. (requiere rol admin)")
     public ResponseEntity<Aparcamiento> createAparcamiento(@RequestBody Aparcamiento aparcamiento) {
         return ResponseEntity.status(HttpStatus.CREATED).body(aparcamientoService.createAparcamiento(aparcamiento));
     }
@@ -88,7 +88,7 @@ public class AparcamientoController {
     @PreAuthorize("hasRole('admin')")
     @PutMapping("/aparcamiento/{id}")
     @SecurityRequirement(name = "Bearer Auth")
-    @Operation(summary = "Actualizar un aparcamiento", description = "Actualiza los detalles de un aparcamiento existente con el ID proporcionado.")
+    @Operation(summary = "Actualizar un aparcamiento", description = "Actualiza los detalles de un aparcamiento existente con el ID proporcionado. (requiere rol admin)")
     public ResponseEntity<Aparcamiento> updateAparcamiento(@PathVariable int id, @RequestBody Aparcamiento aparcamiento) {
         if (aparcamientoService.findAparcamientoById(id) == null) {
             return ResponseEntity.notFound().build();
@@ -99,7 +99,7 @@ public class AparcamientoController {
     @PreAuthorize("hasRole('admin')")
     @DeleteMapping("/aparcamiento/{id}")
     @SecurityRequirement(name = "Bearer Auth")
-    @Operation(summary = "Eliminar un aparcamiento", description = "Elimina un aparcamiento existente con el ID proporcionado.")
+    @Operation(summary = "Eliminar un aparcamiento", description = "Elimina un aparcamiento existente con el ID proporcionado. (requiere rol admin)")
     public ResponseEntity<Void> deleteAparcamiento(@PathVariable int id) {
         if (aparcamientoService.findAparcamientoById(id) == null) {
             return ResponseEntity.notFound().build();

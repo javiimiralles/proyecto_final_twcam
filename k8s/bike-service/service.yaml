@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bike-service
+  namespace: proyecto-final
+spec:
+  selector:
+    app: bike-service
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

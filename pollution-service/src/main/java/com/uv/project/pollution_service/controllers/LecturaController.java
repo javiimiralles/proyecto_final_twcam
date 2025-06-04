@@ -23,10 +23,10 @@ public class LecturaController {
     @Autowired
     private LecturaService lecturaService;
 
-    @Operation(summary = "Enviar una nueva lectura desde una estación (requiere rol ESTACION)")
     @PreAuthorize("hasRole('estacion')")
-    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/estacion/{id}")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Enviar una lectura desde una estación", description = "Permite a una estación enviar una lectura de datos. (requiere rol estacion)")
     public ResponseEntity<Lectura> enviarLectura(@PathVariable int id, @RequestBody Lectura lectura) {
         lectura.setEstacionId(id);
         return ResponseEntity.status(201).body(lecturaService.guardarLectura(lectura));
@@ -39,8 +39,8 @@ public class LecturaController {
     //     return lecturas.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(lecturas.get(0));
     // }
 
-    @Operation(summary = "Consultar la última lectura o las lecturas por intervalo (público)")
     @GetMapping("/estacion/{id}/status")
+    @Operation(summary = "Consultar la última lectura o las lecturas por intervalo", description = "Permite consultar la última lectura de una estación o las lecturas en un intervalo de tiempo. (público)")
     public ResponseEntity<?> obtenerLecturas(
             @PathVariable int id,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant from,

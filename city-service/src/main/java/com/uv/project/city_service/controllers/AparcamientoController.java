@@ -38,8 +38,8 @@ public class AparcamientoController {
     @Autowired
     private DistanceUtils distanceUtils;
 
-    @Operation(summary = "Obtener el aparcamiento más cercano según latitud y longitud")
     @GetMapping("/aparcamientoCercano")
+    @Operation(summary = "Obtener el aparcamiento más cercano según latitud y longitud", description = "Devuelve el aparcamiento más cercano a las coordenadas proporcionadas. (público)")
     public ResponseEntity<Aparcamiento> getAparcamientoCercano(@RequestParam double lat, @RequestParam double lon) {
         List<Aparcamiento> aparcamientos = bikeServiceClient.findAparcamientos();
         if (aparcamientos == null || aparcamientos.isEmpty()) {
@@ -57,10 +57,10 @@ public class AparcamientoController {
         return ResponseEntity.ok(masCercano);
     }
 
-    @Operation(summary = "Crear un nuevo aparcamiento (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
-    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/aparcamiento")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Crear un nuevo aparcamiento", description = "Permite a un usuario con rol admin crear un nuevo aparcamiento. (requiere rol admin)")
     public ResponseEntity<Aparcamiento> createAparcamiento(HttpServletRequest request, @RequestBody Aparcamiento aparcamiento) {
         try {
             String token = tokenUtils.extractBearerToken(request);
@@ -71,10 +71,10 @@ public class AparcamientoController {
         }
     }
 
-    @Operation(summary = "Actualizar un aparcamiento existente por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
-    @SecurityRequirement(name = "Bearer Auth")
     @PutMapping("/aparcamiento/{id}")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Actualizar un aparcamiento existente por ID", description = "Permite a un usuario con rol admin actualizar un aparcamiento existente por su ID. (requiere rol admin)")
     public ResponseEntity<Aparcamiento> updateAparcamiento(HttpServletRequest request, @PathVariable int id, @RequestBody Aparcamiento aparcamiento) {
         try {
             String token = tokenUtils.extractBearerToken(request);
@@ -85,10 +85,10 @@ public class AparcamientoController {
         }
     }
 
-    @Operation(summary = "Eliminar un aparcamiento por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
-    @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/aparcamiento/{id}")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Eliminar un aparcamiento por ID", description = "Permite a un usuario con rol admin eliminar un aparcamiento por su ID. (requiere rol admin)")
     public ResponseEntity<Void> deleteAparcamiento(HttpServletRequest request, @PathVariable int id) {
         try {
             String token = tokenUtils.extractBearerToken(request);
