@@ -1,0 +1,259 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Pollution Service API",
+    "description": "API para la gestión de la polución",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/api/v1/estacion": {
+      "post": {
+        "tags": ["estacion-controller"],
+        "summary": "Crear una nueva estación de medición",
+        "description": "Permite a un usuario con rol admin crear una nueva estación de medición. (requiere rol admin)",
+        "operationId": "crearEstacion",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Estacion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Estacion"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/estacion/{id}": {
+      "post": {
+        "tags": ["lectura-controller"],
+        "summary": "Enviar una lectura desde una estación",
+        "description": "Permite a una estación enviar una lectura de datos. (requiere rol estacion)",
+        "operationId": "enviarLectura",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Lectura"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Lectura"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["estacion-controller"],
+        "summary": "Eliminar una estación por ID",
+        "description": "Permite a un usuario con rol admin eliminar una estación de medición por su ID. (requiere rol admin)",
+        "operationId": "eliminarEstacion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/estaciones": {
+      "get": {
+        "tags": ["estacion-controller"],
+        "summary": "Obtener el listado de todas las estaciones",
+        "description": "Devuelve una lista de todas las estaciones de medición disponibles. (público)",
+        "operationId": "getAllEstaciones",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Estacion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/estacion/{id}/status": {
+      "get": {
+        "tags": ["lectura-controller"],
+        "summary": "Consultar la última lectura o las lecturas por intervalo",
+        "description": "Permite consultar la última lectura de una estación o las lecturas en un intervalo de tiempo. (público)",
+        "operationId": "obtenerLecturas",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Estacion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "Lectura": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "estacionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeStamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nitricOxides": {
+            "type": "number",
+            "format": "double"
+          },
+          "nitrogenDioxides": {
+            "type": "number",
+            "format": "double"
+          },
+          "pm2_5": {
+            "type": "number",
+            "format": "double"
+          },
+          "vocs_NMHC": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer Auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

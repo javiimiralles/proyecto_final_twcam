@@ -1,0 +1,392 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Bike Service API",
+    "description": "API para la gestión de bicicletas",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/api/v1/aparcamiento/{id}": {
+      "put": {
+        "tags": [
+          "aparcamiento-controller"
+        ],
+        "summary": "Actualizar un aparcamiento",
+        "description": "Actualiza los detalles de un aparcamiento existente con el ID proporcionado. (requiere rol admin)",
+        "operationId": "updateAparcamiento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aparcamiento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aparcamiento"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "aparcamiento-controller"
+        ],
+        "summary": "Eliminar un aparcamiento",
+        "description": "Elimina un aparcamiento existente con el ID proporcionado. (requiere rol admin)",
+        "operationId": "deleteAparcamiento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/evento/{id}": {
+      "post": {
+        "tags": [
+          "evento-controller"
+        ],
+        "summary": "Notificar un evento",
+        "description": "Permite a un aparcamiento notificar un evento relacionado con el estado de las bicis. (requiere rol aparcamiento)",
+        "operationId": "notificarEvento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Evento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evento"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/aparcamiento": {
+      "post": {
+        "tags": [
+          "aparcamiento-controller"
+        ],
+        "summary": "Crear un nuevo aparcamiento",
+        "description": "Crea un nuevo aparcamiento con los detalles proporcionados. (requiere rol admin)",
+        "operationId": "createAparcamiento",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aparcamiento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aparcamiento"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/evento/{idAparcamiento}": {
+      "get": {
+        "tags": [
+          "evento-controller"
+        ],
+        "summary": "Obtener los eventos de un aparcamiento",
+        "description": "Permite obtener los eventos relacionados con un aparcamiento específico. (requiere rol servicio)",
+        "operationId": "findEventosByAparcamiento",
+        "parameters": [
+          {
+            "name": "idAparcamiento",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Evento"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/aparcamientos": {
+      "get": {
+        "tags": [
+          "aparcamiento-controller"
+        ],
+        "summary": "Obtener todos los aparcamientos",
+        "description": "Devuelve una lista de todos los aparcamientos disponibles. (público)",
+        "operationId": "findAparcamientos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aparcamiento"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/aparcamientos/ranking": {
+      "get": {
+        "tags": [
+          "aparcamiento-controller"
+        ],
+        "summary": "Obtener los 10 aparcamientos con mayor número de bicis disponibles",
+        "description": "Devuelve una lista de los 10 aparcamientos con mayor número de bicis disponibles en ese momento. (público)",
+        "operationId": "findTop10Aparcamientos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aparcamiento"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/aparcamiento/{id}/status": {
+      "get": {
+        "tags": [
+          "aparcamiento-controller"
+        ],
+        "summary": "Obtener el estado de un aparcamiento",
+        "description": "Devuelve el estado actual de un aparcamiento específico. Si se proporcionan fechas, devuelve el estado en ese rango de fechas. (público)",
+        "operationId": "getStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Aparcamiento": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "capacidad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numBicis": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "latitud": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitud": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "Evento": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "idAparcamiento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "operacion": {
+            "type": "string",
+            "enum": [
+              "aparcamiento",
+              "alquiler",
+              "reposicion_multiple",
+              "retirada_multiple"
+            ]
+          },
+          "huecosDisponibles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bicisDisponibles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer Auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -25,6 +25,8 @@ Los proyectos deben ejecutarse en el siguiente orden y con los siguientes perfil
 
 Al arrancar ``schedulers`` comenzará a hacer peticiones a ``city-service`` cada 60 segundos para agregar los datos. Este tiempo se puede modificar en el archivo ``schedulers.propperties`` que hay en la carpeta ``resources -> config`` del ``config-server``.
 
+# Otra información
+
 ## 📄 OpenAPI
 Con los servicios arrancados, para acceder a la documentación de cada API entrar a la url ``http://localhost:{puerto}/api/v1/swagger-ui/index.html`` y en el buscador poner ``/api/v1/api-spec``.
 
