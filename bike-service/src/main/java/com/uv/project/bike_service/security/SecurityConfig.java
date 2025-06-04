@@ -1,5 +1,6 @@
 package com.uv.project.bike_service.security;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,9 +39,9 @@ public class SecurityConfig {
                 .requestMatchers(
                     AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento"),
                     AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**")
-                ).hasRole("admin")
-                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/evento/**")).hasRole("aparcamiento")
-                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/evento/**")).hasRole("servicio")
+                ).hasAuthority("CLIENT_admin-client")
+                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/evento/**")).hasAuthority("CLIENT_aparcamiento-client")
+                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/evento/**")).hasAuthority("CLIENT_servicio-client")
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2
@@ -49,4 +50,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

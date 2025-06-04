@@ -25,16 +25,24 @@ public class JwtConverter {
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
             Collection<GrantedAuthority> scopes = scopeConverter.convert(jwt);
 
+            // Extraer roles desde realm_access
             Map<String, Object> realmAccess = jwt.getClaim("realm_access");
             Collection<GrantedAuthority> roles = List.of();
-
             if (realmAccess != null && realmAccess.containsKey("roles")) {
                 roles = ((List<?>) realmAccess.get("roles")).stream()
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                         .collect(Collectors.toList());
             }
 
-            return Stream.concat(scopes.stream(), roles.stream())
+            // Extraer client_id (azp) y agregarlo como autoridad
+            String clientId = jwt.getClaimAsString("azp");
+            Collection<GrantedAuthority> clientAuthorities = List.of();
+            if (clientId != null) {
+                clientAuthorities = List.of(new SimpleGrantedAuthority("CLIENT_" + clientId));
+            }
+
+            return Stream.of(scopes, roles, clientAuthorities)
+                    .flatMap(Collection::stream)
                     .collect(Collectors.toList());
         });
 

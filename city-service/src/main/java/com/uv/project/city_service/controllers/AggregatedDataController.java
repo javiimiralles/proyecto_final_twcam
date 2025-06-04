@@ -30,7 +30,7 @@ public class AggregatedDataController {
         return ResponseEntity.ok(data);
     }
 
-    @PreAuthorize("hasRole('servicio')")
+    @PreAuthorize("hasAuthority('CLIENT_servicio-client')")
     @GetMapping("/aggregateData")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(summary = "Generar nuevos datos agregados", description = "Genera nuevos datos agregados a partir de las lecturas de las estaciones. (requiere rol servicio)")

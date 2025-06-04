@@ -23,7 +23,7 @@ public class LecturaController {
     @Autowired
     private LecturaService lecturaService;
 
-    @PreAuthorize("hasRole('estacion')")
+    @PreAuthorize("hasAuthority('CLIENT_estacion-client')")
     @PostMapping("/estacion/{id}")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(summary = "Enviar una lectura desde una estación", description = "Permite a una estación enviar una lectura de datos. (requiere rol estacion)")

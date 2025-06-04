@@ -44,9 +44,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             ).permitAll()
 
          
-            .requestMatchers(HttpMethod.POST, "/api/v1/estacion/*").hasRole("estacion")
-            .requestMatchers(HttpMethod.DELETE, "/api/v1/estacion/*").hasRole("admin")
-            .requestMatchers(HttpMethod.POST, "/api/v1/estacion").hasRole("admin")
+            .requestMatchers(HttpMethod.POST, "/api/v1/estacion/*").hasAuthority("CLIENT_estacion-client")
+            .requestMatchers(HttpMethod.DELETE, "/api/v1/estacion/*").hasAuthority("CLIENT_admin-client")
+            .requestMatchers(HttpMethod.POST, "/api/v1/estacion").hasAuthority("CLIENT_admin-client")
             .requestMatchers(HttpMethod.GET, "/api/v1/estacion/**").authenticated()
 
             .anyRequest().authenticated()

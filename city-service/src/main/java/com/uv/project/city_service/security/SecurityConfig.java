@@ -38,8 +38,8 @@ public class SecurityConfig {
                     AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/**"),
                     AntPathRequestMatcher.antMatcher("/api/v1/estacion"),
                     AntPathRequestMatcher.antMatcher("/api/v1/estacion/**")
-                ).hasRole("admin")
-                .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/aggregateData")).hasRole("servicio")
+                ).hasAuthority("CLIENT_admin-client")
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/aggregateData")).hasAuthority("CLIENT_servicio-client")
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2

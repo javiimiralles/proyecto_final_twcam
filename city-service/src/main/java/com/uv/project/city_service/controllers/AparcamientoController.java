@@ -57,7 +57,7 @@ public class AparcamientoController {
         return ResponseEntity.ok(masCercano);
     }
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasAuthority('CLIENT_admin-client')")
     @PostMapping("/aparcamiento")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(summary = "Crear un nuevo aparcamiento", description = "Permite a un usuario con rol admin crear un nuevo aparcamiento. (requiere rol admin)")
@@ -71,7 +71,7 @@ public class AparcamientoController {
         }
     }
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasAuthority('CLIENT_admin-client')")
     @PutMapping("/aparcamiento/{id}")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(summary = "Actualizar un aparcamiento existente por ID", description = "Permite a un usuario con rol admin actualizar un aparcamiento existente por su ID. (requiere rol admin)")
@@ -85,7 +85,7 @@ public class AparcamientoController {
         }
     }
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasAuthority('CLIENT_admin-client')")
     @DeleteMapping("/aparcamiento/{id}")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(summary = "Eliminar un aparcamiento por ID", description = "Permite a un usuario con rol admin eliminar un aparcamiento por su ID. (requiere rol admin)")

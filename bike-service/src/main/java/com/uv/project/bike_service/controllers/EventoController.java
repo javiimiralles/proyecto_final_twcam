@@ -25,7 +25,7 @@ public class EventoController {
     @Autowired
     private EventoService eventoService;
 
-    @PreAuthorize("hasRole('servicio')")
+    @PreAuthorize("hasAuthority('CLIENT_servicio-client')")
     @GetMapping("/{idAparcamiento}")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(
@@ -40,7 +40,7 @@ public class EventoController {
         return ResponseEntity.ok(eventos);
     }
     
-    @PreAuthorize("hasRole('aparcamiento')")
+    @PreAuthorize("hasAuthority('CLIENT_aparcamiento-client')")
     @PostMapping("/{id}")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(

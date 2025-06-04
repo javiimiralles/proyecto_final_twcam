@@ -24,7 +24,7 @@ public class EstacionController {
     @Autowired
     private TokenUtils tokenUtils;
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasAuthority('CLIENT_admin-client')")
     @PostMapping("/estacion")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(summary = "Crear una nueva estación de medición", description = "Permite a un usuario con rol admin crear una nueva estación de medición. (requiere rol admin)")
@@ -38,7 +38,7 @@ public class EstacionController {
         }
     }
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasAuthority('CLIENT_admin-client')")
     @DeleteMapping("/estacion/{id}")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(summary = "Eliminar una estación de medición por ID", description = "Permite a un usuario con rol admin eliminar una estación de medición por su ID. (requiere rol admin)")
