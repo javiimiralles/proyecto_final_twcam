@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		description = "API para la gestión de bicicletas"
 	),
 	servers = @Server(
-		url = "http://localhost:8080/api/v1",
+		url = "http://localhost:8080",
 		description = "Local server"
 	)
 )
