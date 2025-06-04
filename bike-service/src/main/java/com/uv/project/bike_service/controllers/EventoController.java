@@ -30,7 +30,7 @@ public class EventoController {
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(
         summary = "Obtener los eventos de un aparcamiento",
-        description = "Permite obtener los eventos relacionados con un aparcamiento específico."
+        description = "Permite obtener los eventos relacionados con un aparcamiento específico. (requiere rol servicio)"
     )
     public ResponseEntity<List<Evento>> findEventosByAparcamiento(@PathVariable int idAparcamiento) {
         List<Evento> eventos = eventoService.findEventosByAparcamiento(idAparcamiento);
@@ -45,7 +45,7 @@ public class EventoController {
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(
         summary = "Notificar un evento",
-        description = "Permite a un aparcamiento notificar un evento relacionado con el estado de las bicis."
+        description = "Permite a un aparcamiento notificar un evento relacionado con el estado de las bicis. (requiere rol aparcamiento)"
     )
     public ResponseEntity<Evento> notificarEvento(@PathVariable int id, @RequestBody Evento evento) {
         Evento eventoCreado = eventoService.saveEvento(id, evento);

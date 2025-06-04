@@ -20,25 +20,25 @@ public class EstacionController {
     @Autowired
     private EstacionService estacionService;
 
-    @Operation(summary = "Crear una nueva estación de medición (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
-    @SecurityRequirement(name = "Bearer Auth")
     @PostMapping("/estacion")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Crear una nueva estación de medición", description = "Permite a un usuario con rol admin crear una nueva estación de medición. (requiere rol admin)")
     public ResponseEntity<Estacion> crearEstacion(@RequestBody Estacion estacion) {
         return ResponseEntity.status(201).body(estacionService.crearEstacion(estacion));
     }
 
-    @Operation(summary = "Obtener el listado de todas las estaciones")
     @GetMapping("/estaciones")
+    @Operation(summary = "Obtener el listado de todas las estaciones", description = "Devuelve una lista de todas las estaciones de medición disponibles. (público)")
     public ResponseEntity<List<Estacion>> getAllEstaciones() {
         List<Estacion> estaciones = estacionService.getAllEstaciones();
         return estaciones.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(estaciones);
     }
 
-    @Operation(summary = "Eliminar una estación por ID (requiere rol admin)")
     @PreAuthorize("hasRole('admin')")
-    @SecurityRequirement(name = "Bearer Auth")
     @DeleteMapping("/estacion/{id}")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Eliminar una estación por ID", description = "Permite a un usuario con rol admin eliminar una estación de medición por su ID. (requiere rol admin)")
     public ResponseEntity<Void> eliminarEstacion(@PathVariable int id) {
         if (estacionService.getEstacionById(id).isPresent()) {
             estacionService.eliminarEstacion(id);

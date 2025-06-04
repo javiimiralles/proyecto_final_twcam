@@ -21,7 +21,10 @@ public class AutoInvoker {
     @Value("${city-service.url}")
     private String baseUrl;
 
-    @Scheduled(fixedRate = 60000) // 60 segundos
+    @Value("${scheduler.time}")
+    private long schedulerTime;
+
+    @Scheduled(fixedRateString = "${scheduler.time}") // 60 segundos
     public void invokeAggregateData() {
         try {
             RestTemplate restTemplate = restTemplateProvider.withToken(servicioToken);

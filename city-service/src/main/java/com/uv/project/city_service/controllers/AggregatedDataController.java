@@ -20,8 +20,8 @@ public class AggregatedDataController {
     @Autowired
     private AggregatedDataService aggregatedDataService;
 
-    @Operation(summary = "Obtener el último dato agregado disponible")
     @GetMapping("/aggregatedData")
+    @Operation(summary = "Obtener el último dato agregado disponible", description = "Devuelve el último dato agregado disponible. (público)")
     public ResponseEntity<AggregatedData> getLastAggregatedData() {
         AggregatedData data = aggregatedDataService.getLastAggregatedData();
         if (data == null) {
@@ -30,10 +30,10 @@ public class AggregatedDataController {
         return ResponseEntity.ok(data);
     }
 
-    @Operation(summary = "Generar nuevos datos agregados (requiere rol servicio)")
     @PreAuthorize("hasRole('servicio')")
-    @SecurityRequirement(name = "Bearer Auth")
     @GetMapping("/aggregateData")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Generar nuevos datos agregados", description = "Genera nuevos datos agregados a partir de las lecturas de las estaciones. (requiere rol servicio)")
     public ResponseEntity<AggregatedData> aggregateData() {
         return ResponseEntity.ok(aggregatedDataService.aggregateData());
     }
