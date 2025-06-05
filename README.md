@@ -8,7 +8,36 @@ El siguiente script crea dos contenedores (uno MySQL y otro de MongoDB) y crea l
 ```
 
 ## 🔒 Keycloak
-<strong>ToDo - Poner como configurar keycloak</strong>
+1. <strong>Crear el contenedor de Keycloak</strong>
+```
+docker run -d \
+  --name keycloak \
+  -p 8089:8080 \
+  -e KEYCLOAK_ADMIN=admin \
+  -e KEYCLOAK_ADMIN_PASSWORD=admin \
+  quay.io/keycloak/keycloak:26.2.4 \
+  start-dev
+```
+
+2. Entrar a ``http://localhost:8089``. Las credenciales son:
+    - Usuario: admin
+    - Contraseña: admin
+
+3. En Manage realms, darle a Create realm y cargar el archivo ``realm-export.json`` que proporcionamos.
+
+## 🔒 Generar los tokens
+1. En Keycloak, entrar a Clients, y para los clientes admin-client, servicio-client, aparcamiento-client y estacion-client ir a Credentials y regenerar el Client Secret, ya que al importar la configuración el secreto no se importa.
+
+2. Para obtener el token de cada uno de los clientes que hemos mencionado se debe ejecutar:
+```
+curl -X POST "http://localhost:8089/realms/final-twcam/protocol/openid-connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "client_id={nombre del cliente}" \
+  -d "client_secret={secreto del cliente}" \
+  -d "grant_type=client_credentials"
+```
+
+Se recomienda obetener el token del servicio-client y ponerlo en el archivo ``.env`` antes de continuar.
 
 ## 💻 Compilar los proyectos
 Para dejar los proyectos listos para ser ejecutados se debe usar el script:
@@ -23,9 +52,14 @@ Los proyectos deben ejecutarse en el siguiente orden y con los siguientes perfil
 2. ``bike-service``, ``pollution-service``, ``city-service`` (con perfil ``dev``)
 3. ``schedulers`` (con perfil ``dev``)
 
+Antes de arrancar ``schedulers`` se debe generar un token para el cliente servicio-client y ponerlo en el archivo ``.env``.
+
 Al arrancar ``schedulers`` comenzará a hacer peticiones a ``city-service`` cada 60 segundos para agregar los datos. Este tiempo se puede modificar en el archivo ``schedulers.propperties`` que hay en la carpeta ``resources -> config`` del ``config-server``.
 
-# Otra información
+## 📎Probar los endpoints
+Para probar los endpoints se puede hacer uso de OpenAPI, cuyo acceso se especifica en el siguiente punto. 
+
+A aquellos endpoints que necesite un rol específico para ser ejecutados se deberá poner su token correspondiente en el Bearer.
 
 ## 📄 OpenAPI
 Con los servicios arrancados, para acceder a la documentación de cada API entrar a la url ``http://localhost:{puerto}/api/v1/swagger-ui/index.html`` y en el buscador poner ``/api/v1/api-spec``.
@@ -34,14 +68,3 @@ Puertos disponibles:
 - ``bike-service``: 8080
 - ``pollution-service``: 8081
 - ``city-service``: 8082
-
-## 📎Llamadas a los endpoints
-La tabla con todos los endpoints se encuentra en la memoria. Los tokens de acceso para cada uno de los roles se deben poner en el Bearer al hacer la petición. Son los siguientes:
-
-1. KEYCLOAK_ADMIN_TOKEN=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4S0pUQml0MXVWa3dSUWlxc3dQN2k5ajJhNUdhajdzTjBVejJkRkdycDJ3In0.eyJleHAiOjE3ODA2MDY5MDMsImlhdCI6MTc0OTA3MDkwMywianRpIjoib25ydHJvOmIyZWEyNWE3LTdhYmYtNGE1Ni1iMWM5LTFkZGY4MTBlYzU4YiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5MC9yZWFsbXMvcHJveWVjdG8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZTEyZDEyZjUtZWRkNC00ODBlLWFkYjMtOWE5YTZhYTMxMGVlIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibWFpbi1jbGllbnQiLCJzaWQiOiI3MmY2NmQ0MS1kZTViLTRlMjMtODhjYi0xNTkwYTk5YTYyYzciLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXByb3llY3RvIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJBZG1pbiBVc2VyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW4tdXNlciIsImdpdmVuX25hbWUiOiJBZG1pbiIsImZhbWlseV9uYW1lIjoiVXNlciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIn0.gGmhYCaJld73_0cKjllxgCxBG4KCqBqDgbt4LNZEA0aiUtfDjhi9PiRfi-Rh-E7NDMGkzO6JhSaMjTBhN06wpJUW7V8QsQvAqteiR4iTyMBay9FdRvuFAnrAlD_FbfV2OGez7u72ESbsIB7cxFkRrldopGzxShxJXmiBusdQLx-IzRZbAvKqgzAlplafIoFY7sdJePeHggvDlLN0VI2n4cUK8Qo1xi7nnTXFlBzPTxEGzsRw5b1yspDzTHb2OrOLokyjyvcv6uQcewKOWFtpEd37fCzpUMoKU0bOQ8gJadXgMUB4nkJ91low2M5TDjB2JNyXL_eouWGeBbWJ-mAhpw
-
-2. KEYCLOAK_APARCAMIENTO_TOKEN=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4S0pUQml0MXVWa3dSUWlxc3dQN2k5ajJhNUdhajdzTjBVejJkRkdycDJ3In0.eyJleHAiOjE3ODA2MDY4NjgsImlhdCI6MTc0OTA3MDg2OCwianRpIjoib25ydHJvOjQ1MDE5ZjM2LTYxZTQtNGM2Zi1hY2NkLWQyNzc1MjFkODNhYSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5MC9yZWFsbXMvcHJveWVjdG8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiYmZjOGE5NTYtMTMwZC00NzE5LWE5MWMtNGI5OWY3MWEzMTQ0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibWFpbi1jbGllbnQiLCJzaWQiOiIwZWUyYzc3YS1mNzBiLTQ4NTUtODM3ZC1hMDdkZWNmNjFhYjkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXByb3llY3RvIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImFwYXJjYW1pZW50byJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiQXBhcmNhbWllbnRvIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhcGFyY2FtaWVudG8tdXNlciIsImdpdmVuX25hbWUiOiJBcGFyY2FtaWVudG8iLCJmYW1pbHlfbmFtZSI6IlVzZXIiLCJlbWFpbCI6ImFwYXJjYW1pZW50b0BnbWFpbC5jb20ifQ.Hp5iNDl1PH76wQPg3pTt-qs57tRB7yQkjjrImKvla5-nSyul7Q6K1b3X3jE2rWHdc1_21FV_JXeU4cdKcgdJJ8e4znOUSIu3_t8icitl_3iXf6FK7DsASaSl2Sxnub3mxkKXqfJyky4HW3VbebxJqZL6zi06Th1JqHMKN9T4mRS_O9C8JGCAdXei58zX2XgyjHKkbtgmR809oHdvjQlW1B68vklQonExzYaqnqlB_glM8KtC8fEincmMRkH5V91HqZBHkn9byLA0WhSpn7HtR-k6FDIw-9DYQV-AaBUA4yZ3RlF9ie_QSPby638QrMFUvwcIPJY9xiVjz8t-mxRtwg
-
-3. KEYCLOAK_SERVICIO_TOKEN=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4S0pUQml0MXVWa3dSUWlxc3dQN2k5ajJhNUdhajdzTjBVejJkRkdycDJ3In0.eyJleHAiOjE3ODA2MDY3NDYsImlhdCI6MTc0OTA3MDc0NiwianRpIjoib25ydHJvOjg5ODNjOGEwLWIwZTctNDMyNi1hMzJlLWZjMjRkN2VjMzUyMyIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5MC9yZWFsbXMvcHJveWVjdG8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNWY4Zjk0OTgtODBjMi00YWQ3LTk4MTctM2I4OTcwNjg1NmVhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibWFpbi1jbGllbnQiLCJzaWQiOiJjYzFlMzViNy0yYWIxLTRjNGYtOGI2YS1mNGJjNGY3MDQ3MzMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXByb3llY3RvIiwic2VydmljaW8iLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJTZXJ2aWNpbyBVc2VyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljaW8tdXNlciIsImdpdmVuX25hbWUiOiJTZXJ2aWNpbyIsImZhbWlseV9uYW1lIjoiVXNlciIsImVtYWlsIjoic2VydmljaW9AZ21haWwuY29tIn0.u01oeLqm5xbzQ-QsGIw_hk99muqdug2_V4FTWu16q1MOFzpAsdLNrpau2EJIcfQRt_ivOMtSI_SciTgxtaoTLwdddyrZ3YgueVm4oAXtZo__N4blZxId1o0Uz3UUCN6_46omzrhg3z8gnySrEquEKUe-49of67qdZcGEacNb1eaiyDca2mQLHPYiv86pdmtDa_O3s7QZlmrQZIjXtMgE3cyhZ_pNpDV3KyJEh-G42Yg-JGeIdRXurWxGE6CGjTGgpmW_uDvHTU_AgjMRJkoLMc3eotJapS2xcvKlnQ7rwBWek9VS6acACzoIT4gk5Uzbxo_toEY0yUp17fyVH5s3vA
-
-4. KEYCLOAK_ESTACION_TOKEN=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4S0pUQml0MXVWa3dSUWlxc3dQN2k5ajJhNUdhajdzTjBVejJkRkdycDJ3In0.eyJleHAiOjE3ODA2MDQxNDcsImlhdCI6MTc0OTA2ODE0NywianRpIjoib25ydHJvOjFjNTNhYTA1LTIyNjktNDc2Yi05Njc4LTMyZmI3MmY5Y2I1MSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5MC9yZWFsbXMvcHJveWVjdG8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNmE5ZWI0YWQtNGE2OS00NDI3LTk3MDAtNjE1MjFlMjgyNzM0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibWFpbi1jbGllbnQiLCJzaWQiOiJjNjI0YTQzYy04MDQzLTRmMGMtYmRjNS1jNzhiOWNkZTg0MDciLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXByb3llY3RvIiwib2ZmbGluZV9hY2Nlc3MiLCJlc3RhY2lvbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJFc3RhY2lvbiBVc2VyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZXN0YWNpb24tdXNlciIsImdpdmVuX25hbWUiOiJFc3RhY2lvbiIsImZhbWlseV9uYW1lIjoiVXNlciIsImVtYWlsIjoiZXN0YWNpb25AZ21haWwuY29tIn0.XdedVAMsmwrI8LibfiywoFjGkqajqKMOjPcjl9_rCV-jPYu4ygoYBdf8QWNodkM6IIW4zCq7si83tVtsibfe2TdRCTlXXRf-lapAGCHFkzR97qgB4gEHmGA4f0LCnrQegc7FJRCMPzZc3lcHDg7Y6PX6StyeRIPgZmwlilhhwbJcrLKAz5Htis_rFhRZXGe2D29N9GYkDlE5Y26UokTX7tE5T8HtFQ-ULgr37BoDPgMszixQ7ZhBom1dTkEGXmXHxjVcjoO01XHgAUM9doTNoqCtg2tOnCRPvAJLLToi9DTCKWOA2Vj5tEoDBmSh2Xyzv19xzYJZ5OEuxMTF4crZVg
