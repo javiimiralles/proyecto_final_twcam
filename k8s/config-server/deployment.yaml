@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: config-server
-  namespace: proyecto-final
 spec:
   replicas: 1
   selector:
@@ -15,7 +14,7 @@ spec:
     spec:
       containers:
         - name: config-server
-          image: javiimiralles/config-server:v1.1
+          image: javiimiralles/config-server:v1.2
           ports:
             - containerPort: 8888
           resources:
@@ -25,9 +24,9 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
-          env:
-            - name: KEYCLOAK_SERVICIO_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secrets
-                  key: KEYCLOAK_SERVICIO_TOKEN
+          # env:
+          #   - name: KEYCLOAK_SERVICIO_TOKEN
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: keycloak-secrets
+          #         key: KEYCLOAK_SERVICIO_TOKEN

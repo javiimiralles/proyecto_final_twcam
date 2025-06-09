@@ -1,10 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
-  namespace: proyecto-final
+  name: mysql-bicicletas
 spec:
-  serviceName: mysql
+  serviceName: mysql-bicicletas
   replicas: 1
   selector:
     matchLabels:
@@ -23,22 +22,22 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: mysql-bicicletas-secret
                   key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-bicicletas-config
+                  key: MYSQL_DATABASE
           volumeMounts:
-            - name: mysql-storage
+            - name: mysql-data
               mountPath: /var/lib/mysql
             - name: initdb
               mountPath: /docker-entrypoint-initdb.d
       volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-bicicletas-pvc
         - name: initdb
           configMap:
-            name: mysql-initdb
-  volumeClaimTemplates:
-    - metadata:
-        name: mysql-storage
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
+            name: mysql-bicicletas-init-config

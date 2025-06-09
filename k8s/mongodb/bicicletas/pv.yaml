@@ -1,14 +1,11 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-pv
+  name: mongo-bicicletas-pv
 spec:
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/mysql
-  claimRef:
-    name: mysql-storage-mysql-0
-    namespace: proyecto-final
+    path: /data/mongodb/bicicletas

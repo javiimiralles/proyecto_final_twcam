@@ -1,10 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo
-  namespace: proyecto-final
+  name: mongo-ayuntamiento
 spec:
-  serviceName: mongo
+  serviceName: mongo-ayuntamiento
   replicas: 1
   selector:
     matchLabels:
@@ -20,13 +19,9 @@ spec:
           ports:
             - containerPort: 27017
           volumeMounts:
-            - name: mongo-storage
+            - name: mongo-data
               mountPath: /data/db
-  volumeClaimTemplates:
-    - metadata:
-        name: mongo-storage
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-ayuntamiento-pvc

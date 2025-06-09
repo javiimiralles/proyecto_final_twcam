@@ -1,2 +1,1 @@
 CREATE DATABASE IF NOT EXISTS bicicletas_sql;
-CREATE DATABASE IF NOT EXISTS polucion_sql;
