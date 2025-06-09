@@ -1,12 +1,7 @@
 #!/bin/bash
 
 # 1️⃣ Levantar contenedor MySQL
-docker run -d \
-    --name mysql-container \
-    -e MYSQL_ROOT_PASSWORD=root \
-    -e MYSQL_DATABASE=root \
-    -p 3307:3306 \
-    mysql:latest
+docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=root -p 3307:3306 mysql:latest
 
 echo "⏳ Esperando a que MySQL se inicie..."
 sleep 20
@@ -20,10 +15,7 @@ EOF
 echo "✅ Bases de datos MySQL creadas: bicicletas_sql, polucion_sql"
 
 # 3️⃣ Levantar contenedor MongoDB
-docker run -d \
-    --name mongodb-container \
-    -p 27017:27017 \
-    mongo:latest
+docker run -d --name mongodb-container -p 27017:27017 mongo:latest
 
 echo "⏳ Esperando a que MongoDB se inicie..."
 sleep 10

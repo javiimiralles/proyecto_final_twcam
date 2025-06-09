@@ -19,9 +19,6 @@ public class PollutionServiceClient {
 
     @Value("${pollution-service.url}")
     private String baseUrl;
-
-    @Value("${keycloak.admin-token}")
-    private String adminToken;
     
     public List<Estacion> findEstaciones() {
         RestTemplate restTemplate = restTemplateProvider.withoutToken();
@@ -32,8 +29,8 @@ public class PollutionServiceClient {
         return List.of(response.getBody());
     }
 
-    public Estacion createEstacion(Estacion estacion) {
-        RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
+    public Estacion createEstacion(Estacion estacion, String token) {
+        RestTemplate restTemplate = restTemplateProvider.withToken(token);
         ResponseEntity<Estacion> response = restTemplate.postForEntity(
             baseUrl + "/estacion",
             estacion,
@@ -42,8 +39,8 @@ public class PollutionServiceClient {
         return response.getBody();
     }
 
-    public Estacion updateEstacion(int id, Estacion estacion) {
-        RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
+    public Estacion updateEstacion(int id, Estacion estacion, String token) {
+        RestTemplate restTemplate = restTemplateProvider.withToken(token);
         estacion.setId(id); 
         restTemplate.put(
             baseUrl + "/estacion/" + id,
@@ -52,8 +49,8 @@ public class PollutionServiceClient {
         return estacion;
     }
 
-    public void deleteEstacion(int id) {
-        RestTemplate restTemplate = restTemplateProvider.withToken(adminToken);
+    public void deleteEstacion(int id, String token) {
+        RestTemplate restTemplate = restTemplateProvider.withToken(token);
         restTemplate.delete(baseUrl + "/estacion/" + id);
     }
 }

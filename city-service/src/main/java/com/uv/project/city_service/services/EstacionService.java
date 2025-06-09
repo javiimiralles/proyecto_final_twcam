@@ -39,10 +39,10 @@ public class EstacionService {
     }
 
     public Estacion createEstacion(Estacion estacion, String token) {
-        return pollutionServiceClient.createEstacion(estacion);
+        return pollutionServiceClient.createEstacion(estacion, token);
     }
 
     public void deleteEstacion(Integer id, String token) {
-        pollutionServiceClient.deleteEstacion(id);
+        pollutionServiceClient.deleteEstacion(id, token);
     }
 }
