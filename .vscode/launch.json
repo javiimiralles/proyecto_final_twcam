@@ -60,6 +60,27 @@
             "projectName": "schedulers",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BikeDataApplication<bike-data>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.uv.project.bike_data.BikeDataApplication",
+            "projectName": "bike-data",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=54422 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bike-data"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PollutionDataApplication<pollution-data>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.uv.project.pollution_data.PollutionDataApplication",
+            "projectName": "pollution-data",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
