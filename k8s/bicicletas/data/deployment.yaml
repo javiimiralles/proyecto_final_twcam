@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bike-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bike-data
+  template:
+    metadata:
+      labels:
+        app: bike-data
+    spec:
+      containers:
+        - name: bike-data
+          image: javiimiralles/bike-data:v1.1
+          ports:
+            - containerPort: 8084
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bike-data-config
+                  key: SPRING_CONFIG_IMPORT
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: bike-data-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: bike-data-config
+                  key: SPRING_DATA_MONGODB_URI
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: bike-data-secret
+                  key: MYSQL_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bike-data-secret
+                  key: MYSQL_PASSWORD
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

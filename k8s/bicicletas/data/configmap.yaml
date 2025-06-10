@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bike-data-config
+data:
+  SPRING_CONFIG_IMPORT: "configserver:http://config-server.deployment:8888"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-bicicletas:3306/bicicletas_sql"
+  SPRING_DATA_MONGODB_URI: "mongodb://mongo-bicicletas:27017/bicicletas_nosql"
