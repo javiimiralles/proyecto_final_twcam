@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-bicicletas-init-config
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS bicicletas_sql;

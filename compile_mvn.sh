@@ -12,7 +12,15 @@ cd bike-service
 mvn clean package -DskipTests
 cd ..
 
+cd bike-data
+mvn clean package -DskipTests
+cd ..
+
 cd pollution-service
+mvn clean package -DskipTests
+cd ..
+
+cd pollution-data
 mvn clean package -DskipTests
 cd ..
 
