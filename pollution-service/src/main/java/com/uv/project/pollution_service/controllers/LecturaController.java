@@ -41,6 +41,13 @@ public class LecturaController {
     //     return lecturas.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(lecturas.get(0));
     // }
 
+    @GetMapping("/estaciones/{id}")
+    @Operation(summary = "Consultar las lecturas de una estación", description = "Permite consultar todas las lecturas de una estación específica. (público)")
+    public ResponseEntity<List<Lectura>> getLecturasByEstacion(@PathVariable int id) {
+        List<Lectura> lecturas = lecturaDataClient.getLecturasByEstacion(id);
+        return lecturas.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(lecturas);
+    }
+
     @GetMapping("/estacion/{id}/status")
     @Operation(summary = "Consultar la última lectura o las lecturas por intervalo", description = "Permite consultar la última lectura de una estación o las lecturas en un intervalo de tiempo. (público)")
     public ResponseEntity<?> obtenerLecturas(

@@ -28,10 +28,6 @@ cd city-service
 mvn clean package -DskipTests
 cd ..
 
-cd city-data
-mvn clean package -DskipTests
-cd ..
-
 cd schedulers
 mvn clean package -DskipTests
 cd ..

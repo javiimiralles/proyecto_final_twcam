@@ -40,6 +40,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                 AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/*/status"),
                 AntPathRequestMatcher.antMatcher("/api/v1/aparcamiento/*/status/**"),
                 AntPathRequestMatcher.antMatcher("/api/v1/estaciones"),
+                AntPathRequestMatcher.antMatcher("/api/v1/estaciones/**"),
                 AntPathRequestMatcher.antMatcher("/api/v1/estacion/*/status"),
                 AntPathRequestMatcher.antMatcher("/api/v1/estacion/*/status/**")
             ).permitAll()
