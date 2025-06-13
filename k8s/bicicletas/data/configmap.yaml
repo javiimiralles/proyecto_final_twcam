@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: bike-data-config
 data:
-  SPRING_CONFIG_IMPORT: "configserver:http://config-server.deployment:8888"
+  SPRING_CONFIG_IMPORT: "configserver:http://config-server:8888"
   SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-bicicletas:3306/bicicletas_sql"
   SPRING_DATA_MONGODB_URI: "mongodb://mongo-bicicletas:27017/bicicletas_nosql"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: "http://keycloak:8089/realms/final-twcam"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://keycloak:8089/realms/final-twcam/protocol/openid-connect/certs"

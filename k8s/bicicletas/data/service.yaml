@@ -3,8 +3,10 @@ kind: Service
 metadata:
   name: bike-data
 spec:
+  type: ClusterIP
   selector:
     app: bike-data
   ports:
-    - port: 8084
+    - name: http
+      port: 8084
       targetPort: 8084

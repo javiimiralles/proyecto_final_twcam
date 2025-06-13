@@ -14,30 +14,40 @@ spec:
     spec:
       containers:
         - name: bike-service
-          image: javiimiralles/bike-service:v1.4
+          image: javiimiralles/bike-service:v1.6
           ports:
             - containerPort: 8080
           env:
-          - name: SPRING_CONFIG_IMPORT
-            valueFrom:
-              configMapKeyRef:
-                name: bike-service-api-config
-                key: SPRING_CONFIG_IMPORT
-          - name: SERVICE_BIKE_DATA_URL
-            valueFrom:
-              configMapKeyRef:
-                name: bike-service-api-config
-                key: SERVICE_BIKE_DATA_URL
-          - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-            valueFrom:
-              configMapKeyRef:
-                name: bike-service-api-config
-                key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-          - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
-            valueFrom:
-              configMapKeyRef:
-                name: bike-service-api-config
-                key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bike-service-api-config
+                  key: SPRING_CONFIG_IMPORT
+            - name: SERVICE_BIKE_DATA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: bike-service-api-config
+                  key: SERVICE_BIKE_DATA_URL
+            - name: SPRING_CLOUD_CONFIG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: bike-service-secret
+                  key: SPRING_CLOUD_CONFIG_USERNAME
+            - name: SPRING_CLOUD_CONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bike-service-secret
+                  key: SPRING_CLOUD_CONFIG_PASSWORD
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: bike-service-api-config
+                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: bike-service-api-config
+                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
           resources:
             requests:
               memory: "256Mi"
