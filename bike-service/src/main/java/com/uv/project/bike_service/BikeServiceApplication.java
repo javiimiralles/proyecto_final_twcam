@@ -2,8 +2,10 @@ package com.uv.project.bike_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -14,7 +16,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @EnableFeignClients
 @SpringBootApplication(
-	exclude = {DataSourceAutoConfiguration.class},
+	exclude = {
+		DataSourceAutoConfiguration.class,
+		MongoAutoConfiguration.class,
+		MongoDataAutoConfiguration.class
+	},
 	scanBasePackages = {"com.uv.project.bike_service", "com.uv.project.shared"}
 )
 @EntityScan(basePackages = {"com.uv.project.shared.domain"})

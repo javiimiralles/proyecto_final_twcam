@@ -36,10 +36,10 @@ public class SecurityConfig {
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/evento/**")).hasAuthority("CLIENT_aparcamiento-client")
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/evento/**")).hasAuthority("CLIENT_servicio-client")
                 .anyRequest().authenticated()
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter.jwtAuthenticationConverter()))
             );
+            // .oauth2ResourceServer(oauth2 -> oauth2
+            //     .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter.jwtAuthenticationConverter()))
+            // );
         return http.build();
     }
 }
