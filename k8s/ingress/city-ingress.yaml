@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: city-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: city-service.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: city-service
+                port:
+                  number: 8082
