@@ -5,11 +5,11 @@
 echo "Building Docker images for microservices..."
 
 cd bike-data
-docker build -t javiimiralles/bike-data:v1.2 .
+docker build -t javiimiralles/bike-data:v1.3 .
 cd ..
 
 cd bike-service
-docker build -t javiimiralles/bike-service:v1.6 .
+docker build -t javiimiralles/bike-service:v1.7 .
 cd ..
 
 cd city-service
@@ -40,8 +40,8 @@ docker login
 echo "Pushing Docker images to Docker Hub..."
 
 # Subimos las imágenes a Docker Hub
-docker push javiimiralles/bike-data:v1.2
-docker push javiimiralles/bike-service:v1.6
+docker push javiimiralles/bike-data:v1.3
+docker push javiimiralles/bike-service:v1.7
 docker push javiimiralles/city-service:v1.3
 docker push javiimiralles/config-server:v1.5
 docker push javiimiralles/pollution-data:v1.1

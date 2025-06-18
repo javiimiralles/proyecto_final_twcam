@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: bike-service
-          image: javiimiralles/bike-service:v1.6
+          image: javiimiralles/bike-service:v1.7
           ports:
             - containerPort: 8080
           env:
