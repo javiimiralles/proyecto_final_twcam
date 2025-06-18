@@ -18,17 +18,11 @@ spec:
           image: mysql:5.7
           ports:
             - containerPort: 3306
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-bicicletas-secret
-                  key: MYSQL_ROOT_PASSWORD
-            - name: MYSQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: mysql-bicicletas-config
-                  key: MYSQL_DATABASE
+          envFrom:
+            - configMapRef:
+                name: mysql-bicicletas-config
+            - secretRef:
+                name: mysql-bicicletas-secret
           volumeMounts:
             - name: mysql-data
               mountPath: /var/lib/mysql

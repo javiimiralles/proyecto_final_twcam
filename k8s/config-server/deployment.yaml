@@ -24,9 +24,3 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
-          # env:
-          #   - name: KEYCLOAK_SERVICIO_TOKEN
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: keycloak-secrets
-          #         key: KEYCLOAK_SERVICIO_TOKEN

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: polution-service-api-config
+  name: pollution-service-api-config
 data:
   SPRING_CONFIG_IMPORT: "configserver:http://config-server:8888"
-  SERVICE_POLUTION_DATA_URL: "http://polution-data:8083/api/v1"
-  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: "http://keycloak:8090/realms/final-twcam"
-  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://keycloak:8090/realms/final-twcam/protocol/openid-connect/certs"
+  SERVICE_POLLUTION_DATA_URL: "http://pollution-data:8085/api/v1"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: "http://keycloak.local:30129/realms/final-twcam"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://keycloak.local:8089/realms/final-twcam/protocol/openid-connect/certs"

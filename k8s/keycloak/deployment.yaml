@@ -22,20 +22,13 @@ spec:
             - --http-enabled=true
             - --hostname-strict=false
             - --http-port=8089
+            - --hostname=keycloak.local
             - --import-realm
             - --db
             - dev-file
-          env:
-            - name: KEYCLOAK_ADMIN
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secret
-                  key: KEYCLOAK_ADMIN
-            - name: KEYCLOAK_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secret
-                  key: KEYCLOAK_ADMIN_PASSWORD
+          envFrom:
+            - secretRef:
+                name: keycloak-secret
           ports:
             - containerPort: 8089
           volumeMounts:

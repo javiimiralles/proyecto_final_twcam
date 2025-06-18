@@ -18,17 +18,11 @@ spec:
           image: mysql:5.7
           ports:
             - containerPort: 3306
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-polucion-secret
-                  key: MYSQL_ROOT_PASSWORD
-            - name: MYSQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: mysql-polucion-config
-                  key: MYSQL_DATABASE
+          envFrom:
+            - configMapRef:
+                name: mysql-polucion-config
+            - secretRef:
+                name: mysql-polucion-secret
           volumeMounts:
             - name: mysql-data
               mountPath: /var/lib/mysql

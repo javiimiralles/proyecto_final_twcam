@@ -1,68 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: polution-data
+  name: pollution-data
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: polution-data
+      app: pollution-data
   template:
     metadata:
       labels:
-        app: polution-data
+        app: pollution-data
     spec:
+      hostAliases:
+        - ip: "10.104.19.99"
+          hostnames:
+            - "keycloak.local"
       containers:
-        - name: polution-data
+        - name: pollution-data
           image: javiimiralles/pollution-data:v1.1
           ports:
             - containerPort: 8085
-          env:
-            - name: SPRING_CONFIG_IMPORT
-              valueFrom:
-                configMapKeyRef:
-                  name: polution-data-config
-                  key: SPRING_CONFIG_IMPORT
-            - name: SPRING_DATASOURCE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: polution-data-config
-                  key: SPRING_DATASOURCE_URL
-            - name: SPRING_DATA_MONGODB_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: polution-data-config
-                  key: SPRING_DATA_MONGODB_URI
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: polution-data-secret
-                  key: MYSQL_USER
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: polution-data-secret
-                  key: MYSQL_PASSWORD
-            - name: SPRING_CLOUD_CONFIG_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: polution-data-secret
-                  key: SPRING_CLOUD_CONFIG_USERNAME
-            - name: SPRING_CLOUD_CONFIG_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: polution-data-secret
-                  key: SPRING_CLOUD_CONFIG_PASSWORD
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: polution-data-config
-                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: polution-data-config
-                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+          envFrom:
+            - configMapRef:
+                name: pollution-data-config
+            - secretRef:
+                name: pollution-data-secret
           resources:
             requests:
               memory: "256Mi"

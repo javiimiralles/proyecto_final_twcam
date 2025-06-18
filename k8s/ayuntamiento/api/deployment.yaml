@@ -12,57 +12,20 @@ spec:
       labels:
         app: city-service
     spec:
+      hostAliases:
+        - ip: "10.104.19.99"
+          hostnames:
+            - "keycloak.local"
       containers:
         - name: city-service
           image: javiimiralles/city-service:v1.3
           ports:
             - containerPort: 8082
-          env:
-            - name: SPRING_CONFIG_IMPORT
-              valueFrom:
-                configMapKeyRef:
-                  name: city-service-config
-                  key: SPRING_CONFIG_IMPORT
-            - name: BIKE_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: city-service-config
-                  key: BIKE_SERVICE_URL
-            - name: POLLUTION_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: city-service-config
-                  key: POLLUTION_SERVICE_URL
-            - name: SPRING_DATA_MONGODB_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: city-service-config
-                  key: SPRING_DATA_MONGODB_URI
-            - name: SPRING_CLOUD_CONFIG_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: city-service-secret
-                  key: SPRING_CLOUD_CONFIG_USERNAME
-            - name: SPRING_CLOUD_CONFIG_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: city-service-secret
-                  key: SPRING_CLOUD_CONFIG_PASSWORD
-            - name: KEYCLOAK_SERVICIO_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: city-service-secret
-                  key: KEYCLOAK_SERVICIO_TOKEN
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: city-service-config
-                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: city-service-config
-                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+          envFrom:
+          - configMapRef:
+              name: city-service-config
+          - secretRef:
+              name: city-service-secret
           resources:
             requests:
               memory: "256Mi"

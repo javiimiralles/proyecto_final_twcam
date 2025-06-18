@@ -25,7 +25,7 @@ docker build -t javiimiralles/pollution-data:v1.1 .
 cd ..
 
 cd pollution-service
-docker build -t javiimiralles/pollution-service:v1.3 .
+docker build -t javiimiralles/pollution-service:v1.4 .
 cd ..
 
 cd schedulers
@@ -45,7 +45,7 @@ docker push javiimiralles/bike-service:v1.7
 docker push javiimiralles/city-service:v1.3
 docker push javiimiralles/config-server:v1.5
 docker push javiimiralles/pollution-data:v1.1
-docker push javiimiralles/pollution-service:v1.3
+docker push javiimiralles/pollution-service:v1.4
 docker push javiimiralles/schedulers:v1.3
 
 echo "Docker images pushed to Docker Hub successfully."
