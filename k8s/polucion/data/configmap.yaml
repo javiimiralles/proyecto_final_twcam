@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: polution-data-config
+data:
+  SPRING_CONFIG_IMPORT: "configserver:http://config-server:8888"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-polucion:3306/polucion_sql"
+  SPRING_DATA_MONGODB_URI: "mongodb://mongo-polucion:27017/polucion_nosql"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: "http://keycloak:8090/realms/final-twcam"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://keycloak:8090/realms/final-twcam/protocol/openid-connect/certs"

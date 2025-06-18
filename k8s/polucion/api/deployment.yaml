@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polution-service
+spec:
+  replicas: 2  
+  selector:
+    matchLabels:
+      app: polution-service
+  template:
+    metadata:
+      labels:
+        app: polution-service
+    spec:
+      containers:
+        - name: polution-service
+          image: javiimiralles/pollution-service:v1.3 
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: polution-service-api-config
+                  key: SPRING_CONFIG_IMPORT
+            - name: SERVICE_POLUTION_DATA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: polution-service-api-config
+                  key: SERVICE_POLUTION_DATA_URL
+            - name: SPRING_CLOUD_CONFIG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: polution-service-secret
+                  key: SPRING_CLOUD_CONFIG_USERNAME
+            - name: SPRING_CLOUD_CONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: polution-service-secret
+                  key: SPRING_CLOUD_CONFIG_PASSWORD
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: polution-service-api-config
+                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: polution-service-api-config
+                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

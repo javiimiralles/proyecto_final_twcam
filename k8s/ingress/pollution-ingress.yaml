@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: polution-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: polution-service.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: polution-service
+                port:
+                  number: 8081
